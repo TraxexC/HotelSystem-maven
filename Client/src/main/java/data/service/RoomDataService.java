@@ -15,3 +15,4 @@ public interface RoomDataService extends Remote {
 
     public boolean addRoom(RoomPO roomPO) throws RemoteException;
 }
+
