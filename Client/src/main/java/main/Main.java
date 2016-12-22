@@ -1487,7 +1487,7 @@ public class Main extends Application {
 			// get Controller
 			SystemManagerSystemStaffInfoModifyController systemManagerSystemStaffInfoViewController = loader
 					.getController();
-//			systemManagerSystemStaffInfoViewController.initialize(this, systemManagerVO);
+//	TODO		systemManagerSystemStaffInfoViewController.initialize(this, systemManagerVO);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
