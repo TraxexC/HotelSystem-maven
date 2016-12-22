@@ -1,0 +1,65 @@
+package data.dao.impl;
+
+import PO.AssessmentPO;
+import data.dao.AssessmentDao;
+import other.hibernateUtil;
+
+import java.util.ArrayList;
+
+public class AssessmentDaoImpl implements AssessmentDao {
+
+    public boolean addAssessment(AssessmentPO assessmentPO) {
+        try {
+            hibernateUtil.add(assessmentPO);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleAssessment(AssessmentPO assessmentPO) {
+        try {
+            hibernateUtil.delete(assessmentPO);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public AssessmentPO getAssessment(String orderID) {
+        try {
+            AssessmentPO assessmentPO = (AssessmentPO) hibernateUtil.findById(AssessmentPO.class, orderID);
+            return assessmentPO;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public ArrayList<AssessmentPO> getAllAssement(String hotelid) {
+        try {
+            ArrayList<AssessmentPO> arrayList = (ArrayList<AssessmentPO>) hibernateUtil.findbySome("AssessmentPO", "hotelid", hotelid);
+            return arrayList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public ArrayList<AssessmentPO> getUserASS(String userid) {
+        try {
+            ArrayList<AssessmentPO> assessmentPOs = new ArrayList<AssessmentPO>();
+            ArrayList<AssessmentPO> arrayList = (ArrayList<AssessmentPO>) hibernateUtil.getAll("AssessmentPO", AssessmentPO.class);
+            for (AssessmentPO po : arrayList) {
+                if (po.getUserId().equals(userid)) {
+                    assessmentPOs.add(po);
+                }
+            }
+            return assessmentPOs;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+}
