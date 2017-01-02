@@ -1,19 +1,18 @@
 package Test;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import VO.OrderVO;
 import blservice.Order_blservice;
 import blservice.impl.Order_bl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.OrderState;
 import util.DateUtil;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrderTester {

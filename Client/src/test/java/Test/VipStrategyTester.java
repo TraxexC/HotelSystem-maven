@@ -1,18 +1,17 @@
 package Test;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import VO.VipStrategyVO;
 import VO.VipVO;
 import blservice.VipStrategy_blService;
 import blservice.impl.VipStrategy_blServiceImpl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VipStrategyTester {

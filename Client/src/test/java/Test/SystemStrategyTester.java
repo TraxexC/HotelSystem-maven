@@ -1,19 +1,18 @@
 package Test;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import VO.SystemStrategyVO;
 import blservice.SystemStrategy_blservice;
 import blservice.impl.SystemStrategy_bl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.StrategyState;
 import other.SystemStrategyType;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SystemStrategyTester {

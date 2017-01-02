@@ -1,25 +1,20 @@
 package Test;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
-import VO.AssementVO;
-import VO.HotelInfoVO;
-import VO.HotelRoomInfoVO;
-import VO.HotelStrategyVO;
-import VO.LabelVO;
-import VO.OrderVO;
+import VO.*;
 import blservice.Hotel_blservice;
 import blservice.impl.Hotel_bl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.IdGernerateServiceImpl;
 import other.LabelType;
 import other.RoomType;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HotelTester {
 

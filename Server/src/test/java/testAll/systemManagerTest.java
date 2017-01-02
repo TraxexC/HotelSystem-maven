@@ -1,14 +1,13 @@
 package testAll;
 
-import static org.junit.Assert.*;
-
+import PO.SystemManagerPO;
+import data.service.SystemManagerDataService;
+import data.service.impl.SystemManagerDataServiceImpl;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import PO.SystemManagerPO;
-import data.service.SystemManagerDataService;
-import data.service.impl.SystemManagerDataServiceImpl;
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class systemManagerTest {

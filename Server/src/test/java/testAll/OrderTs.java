@@ -1,17 +1,16 @@
 package testAll;
 
-import static org.junit.Assert.assertEquals;
-
-import java.time.LocalDate;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import PO.OrderPO;
 import data.service.OrderDataService;
 import data.service.impl.OrderDataServiceImpl;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.OrderState;
+
+import java.time.LocalDate;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrderTs {

@@ -1,17 +1,16 @@
 package Test;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import VO.HotelStrategyVO;
 import blservice.HotelStrategy_blservice;
 import blservice.impl.HotelStrategy_bl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HotelStrategyTester {

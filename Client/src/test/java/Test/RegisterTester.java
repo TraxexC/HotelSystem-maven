@@ -1,13 +1,12 @@
 package Test;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import VO.CustomerVO;
 import blservice.Register_blservice;
 import blservice.impl.Register_bl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.memberState;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

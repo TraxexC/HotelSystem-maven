@@ -1,11 +1,10 @@
 package Test;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import main.ClientRunner;
+import org.junit.Test;
 import other.IdGernerateServiceImpl;
+
+import static org.junit.Assert.assertEquals;
 
 public class IdGernerateTester {
 

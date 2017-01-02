@@ -1,16 +1,13 @@
 package Test;
 
-import java.rmi.RemoteException;
-
 import PO.LoginPO;
 import PO.SystemManagerPO;
 import RMI.RemoteHelper;
-import VO.HotelInfoVO;
-import blservice.Hotel_blservice;
-import blservice.impl.Hotel_bl;
 import main.ClientRunner;
 import other.PassWordMd5;
 import other.UserType;
+
+import java.rmi.RemoteException;
 
 public class tester {
     public static void main(String[] args) {

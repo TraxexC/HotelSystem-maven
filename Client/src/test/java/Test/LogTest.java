@@ -1,18 +1,17 @@
 package Test;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
-import static org.junit.Assert.*;
-
 import VO.LogofUserVO;
 import blservice.LogOfUser_blServce;
 import blservice.impl.LogOfUser_blServceImpl;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LogTest {

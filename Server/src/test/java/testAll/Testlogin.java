@@ -1,17 +1,16 @@
 package testAll;
 
-import static org.junit.Assert.assertEquals;
-
-import java.rmi.RemoteException;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import PO.LoginPO;
 import data.service.LoginDataService;
 import data.service.impl.LoginDataServiceImpl;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.UserType;
+
+import java.rmi.RemoteException;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Testlogin {

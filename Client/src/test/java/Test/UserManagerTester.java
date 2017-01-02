@@ -1,15 +1,5 @@
 package Test;
 
-import static org.junit.Assert.assertEquals;
-
-import java.rmi.RemoteException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
 import PO.LoginPO;
 import PO.SystemManagerPO;
 import RMI.RemoteHelper;
@@ -22,8 +12,17 @@ import blservice.impl.UserManagement_bl;
 import data.service.LoginDataService;
 import data.service.SystemManagerDataService;
 import main.ClientRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import other.UserType;
 import util.DateUtil;
+
+import java.rmi.RemoteException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserManagerTester {

@@ -1,13 +1,13 @@
 package testAll;
 
-import static org.junit.Assert.*;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import PO.HotelPO;
 import data.service.HotelDataService;
 import data.service.impl.HotelDataServiceImpl;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class hotelTest {

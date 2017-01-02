@@ -1,9 +1,9 @@
 package testAll;
 
-import java.util.ArrayList;
-
 import PO.SuperVipPO;
 import data.dao.impl.SupVipDaoImpl;
+
+import java.util.ArrayList;
 
 public class SuperVip {
 

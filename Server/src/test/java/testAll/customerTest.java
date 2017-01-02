@@ -1,15 +1,15 @@
 package testAll;
 
-import static org.junit.Assert.assertEquals;
-
-import java.time.LocalDate;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import PO.CustomerPO;
 import data.service.CustomerDataService;
 import data.service.impl.CustomerDataServiceImpl;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import java.time.LocalDate;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class customerTest {
