@@ -6,6 +6,7 @@ import blservice.impl.Login_bl;
 import blservice.impl.UserManagement_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.Main;
@@ -21,6 +22,10 @@ public class LoginController {
 	private Button login;
 	@FXML
 	private Button register;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Label errorLabel1;
 
 	private Main mainScene;
 	private Login_blservice loginService;
@@ -31,44 +36,62 @@ public class LoginController {
 	}
 
 	public void initialize(Main main) {
-		// TODO Auto-generated method stub
 		this.mainScene = main;
 		this.loginService = new Login_bl();
 		this.usermanagementService = new UserManagement_bl();
 		this.LoginShow();
 	}
 
-	public void LoginShow() {
-		this.userId.setPromptText("请输入您的ID");
+    @FXML
+    private void LoginShow() {
+        this.userId.setPromptText("请输入您的ID");
 		this.userPassword.setPromptText("请输入您的密码");
+
 	}
 
-	public void handleLogin() {
-		String userIdInField = this.userId.getText();
+    @FXML
+    private void handleLogin() {
+        this.errorLabel.setVisible(false);
+        this.errorLabel1.setVisible(false);
+        String userIdInField = this.userId.getText();
 		String userPasswordInField = this.userPassword.getText();
 		boolean isComfirm = this.loginService.comfirm(userIdInField, userPasswordInField);
 		if (isComfirm) {
-
 			// 待修改方法
 			UserType loginType = this.loginService.assertUserType(userIdInField);
-			if (loginType==UserType.CUSTOMER) {
-				this.mainScene.showCustomerMainScene(this.usermanagementService.getCustomer(userIdInField));
+            if (loginType == UserType.CUSTOMER) {
+                // if (true//this.loginService.isOnlineConfirm(userIdInField)) {
+                // this.mainScene.showCustomerMainScene(this.usermanagementService.getCustomer(userIdInField));
+                // //this.loginService.login(userIdInField);
+                // } else {
+                // this.errorLabel.setVisible(true);
+                // this.errorLabel.setText("无法重复登录！");
+                // }
+                this.mainScene.showCustomerMainScene(this.usermanagementService.getCustomer(userIdInField));
 			}
-			if (loginType==UserType.HOTELSTAFF) {
-				this.mainScene.showHotelStaffMainScene(this.usermanagementService.getHotelStaff(userIdInField));
+            if (loginType == UserType.HOTELSTAFF) {
+                this.mainScene.showHotelStaffMainScene(this.usermanagementService.getHotelStaff(userIdInField));
 			}
-			if (loginType==UserType.SYSTEMSTAFF) {
-				this.mainScene.showSystemStaffMainScene(this.usermanagementService.getSystemStaff(userIdInField));
+            if (loginType == UserType.SYSTEMSTAFF) {
+                this.mainScene.showSystemStaffMainScene(this.usermanagementService.getSystemStaff(userIdInField));
 			}
-			if (loginType==UserType.SYSTEMMANAGER) {
-				this.mainScene.showSystemManagerMainScene(this.usermanagementService.getSystemManager(userIdInField));
+            if (loginType == UserType.SYSTEMMANAGER) {
+                this.mainScene.showSystemManagerMainScene(this.usermanagementService.getSystemManager(userIdInField));
 			}
 
-		}else System.out.println("Error");
-	}
+        } else if (userIdInField.equals("")) {
+            this.errorLabel1.setVisible(true);
+            this.errorLabel1.setText("请输入用户名");
+        } else if (!isComfirm) {
+            this.errorLabel.setVisible(true);
+            this.errorLabel.setText("密码错误！");
+        }
 
-	public void handleRegister() {
-		this.mainScene.showRegisterScene();
+    }
+
+    @FXML
+    private void handleRegister() {
+        this.mainScene.showRegisterScene();
 	}
 
 }

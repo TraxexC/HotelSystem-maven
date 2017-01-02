@@ -6,6 +6,7 @@ import VO.HotelInfoVO;
 import VO.HotelStaffVO;
 import VO.HotelStrategyVO;
 import blservice.HotelStrategy_blservice;
+import blservice.impl.HotelStrategy_bl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class HotelStrategyViewController {
 
@@ -25,7 +27,9 @@ public class HotelStrategyViewController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button modifyHotelStrategy;
+    private Label StateLabel;
+    @FXML
+    private Button modifyHotelStrategy;
 	@FXML
 	private Button back;
 	@FXML
@@ -55,7 +59,8 @@ public class HotelStrategyViewController {
 	public void HotelStrategyViewShow() {
 		this.leftIdLabel.setText(this.hotelStaff.getId());
 		this.leftNameLabel.setText(this.hotelStaff.getUsername());
-		this.hotelName.setText(this.hotelStaff.getHotelName());
+        this.myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.hotelName.setText(this.hotelStaff.getHotelName());
 		this.strategyTable.setItems(hotelStrategyData);
 
 	}
@@ -65,21 +70,20 @@ public class HotelStrategyViewController {
 		this.mainscene = main;
 		this.hotelStaff = staff;
 		this.hotel = hotel;
-		int count = 0;
-		this.hotelStrategyList = this.service.getListOfHotelStrategys(this.hotel.getHotelID());
-		while (count < this.hotelStrategyList.size()) {
-			this.hotelStrategyData.add(this.hotelStrategyList.get(count));
-			count++;
-		}
-		this.strategyName.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
-		this.strategyInfo.setCellValueFactory(cellData -> cellData.getValue().getInfoProperty());
-		this.HotelStrategyViewShow();
+        this.service = new HotelStrategy_bl();
+        this.hotelStrategyList = this.service.getListOfHotelStrategys(this.hotel.getHotelID());
+        this.refreshTable();
+        this.HotelStrategyViewShow();
 	}
 
-	public void handleModify() {
-		int foucus = this.strategyTable.getSelectionModel().getFocusedIndex();
-		this.mainscene.showHotelStrategyModifyScene(hotelStaff, this.hotelStrategyList.get(foucus), hotel);
-	}
+    @FXML
+    private void handleModify() {
+        HotelStrategyVO foucusON = this.strategyTable.getSelectionModel().getSelectedItem();
+        if (foucusON != null)
+            this.mainscene.showHotelStrategyModifyScene(hotelStaff, foucusON, hotel);
+        else
+            this.StateLabel.setText("请选择要查看的策略！");
+    }
 
 	@FXML
 	private void handleNew() {
@@ -92,8 +96,26 @@ public class HotelStrategyViewController {
 	}
 
 	@FXML
-	private void handleDelete() {
-		int foucus = this.strategyTable.getSelectionModel().getFocusedIndex();
-		this.service.deleteHotelStrategy(this.hotelStrategyList.get(foucus).getId());
-	}
+    private void handleDelete() {
+
+        int foucus = this.strategyTable.getSelectionModel().getFocusedIndex();
+        this.StateLabel.setText("已删除" + "策略“" + this.hotelStrategyList.get(foucus).getStrategyName() + "”");
+        this.service.deleteHotelStrategy(this.hotelStrategyList.get(foucus).getId());
+        this.refreshTable();
+
+    }
+
+    private void refreshTable() {
+        this.hotelStrategyList = this.service.getListOfHotelStrategys(this.hotel.getHotelID());
+        this.hotelStrategyData.clear();
+        int count = 0;
+        if (this.hotelStrategyList.size() > 0 || this.hotelStrategyList != null) {
+            while (count < this.hotelStrategyList.size()) {
+                this.hotelStrategyData.add(this.hotelStrategyList.get(count));
+                count++;
+            }
+            this.strategyName.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+            this.strategyInfo.setCellValueFactory(cellData -> cellData.getValue().getInfoProperty());
+        }
+    }
 }

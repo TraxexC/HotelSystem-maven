@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import VO.HotelStaffVO;
 
-public class HotelStaffPO implements Serializable{
-	/**
+public class HotelStaffPO implements Serializable {
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -15,18 +15,28 @@ public class HotelStaffPO implements Serializable{
 	private String phone;
 	private String hotelId;
     private String hotelName;
+    private String image;
 
 	public HotelStaffPO() {
 	}
-	
-	public HotelStaffPO(HotelStaffVO hotelStaffVO){
-		super();
-		this.hotelId = hotelStaffVO.getHotelId();
-		this.username = hotelStaffVO.getUsername();
-		this.phone = hotelStaffVO.getPhone();
-		this.id = hotelStaffVO.getId();
-		this.hotelName = hotelStaffVO.getHotelName();
-	}
+
+    public HotelStaffPO(HotelStaffVO hotelStaffVO) {
+        super();
+        this.hotelId = hotelStaffVO.getHotelId();
+        this.username = hotelStaffVO.getUsername();
+        this.phone = hotelStaffVO.getPhone();
+        this.id = hotelStaffVO.getId();
+        this.hotelName = hotelStaffVO.getHotelName();
+        this.image = hotelStaffVO.getImage();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 	public String getId() {
 		return id;

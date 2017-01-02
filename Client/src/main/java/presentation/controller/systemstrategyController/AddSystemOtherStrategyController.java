@@ -1,5 +1,7 @@
 package presentation.controller.systemstrategyController;
 
+import java.util.Optional;
+
 import VO.SystemStaffVO;
 import VO.SystemStrategyVO;
 import blservice.SystemStrategy_blservice;
@@ -8,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -16,6 +19,7 @@ import javafx.scene.image.ImageView;
 import main.Main;
 import other.StrategyState;
 import other.SystemStrategyType;
+import util.ImageUtil;
 
 public class AddSystemOtherStrategyController {
 	
@@ -61,7 +65,8 @@ public class AddSystemOtherStrategyController {
 	public void SystemHolidayStrategyModifyShow(Main mainScene) {
 		leftIdLabel.setText(systemStaffVO.getId());
 		leftNameLabel.setText(systemStaffVO.getUsername());//初始化
-	}
+        myPicture.setImage(ImageUtil.setImage(systemStaffVO.getImage()));
+    }
 	
 	@FXML//保存修改
 	private void handleSave(){
@@ -90,9 +95,11 @@ public class AddSystemOtherStrategyController {
 			alert.setTitle("恭喜");
 			alert.setHeaderText("新增成功");
 			alert.setContentText("您已成功新增一条优惠信息！");
-			alert.showAndWait();
-			// TODO 返回到查看界面
-		} else {
+            Optional<ButtonType> aOptional = alert.showAndWait();
+            if (aOptional.get() == ButtonType.OK) {
+                mainScene.showSystemStrategyViewScene(systemStaffVO);
+            }
+        } else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("抱歉");
 			alert.setHeaderText("新增失败");

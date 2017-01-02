@@ -1,14 +1,22 @@
 package presentation.controller.orderController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import VO.HotelStaffVO;
+import VO.LogofUserVO;
 import VO.OrderVO;
+import blservice.LogOfUser_blServce;
 import blservice.Order_blservice;
+import blservice.impl.LogOfUser_blServceImpl;
+import blservice.impl.Order_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import main.Main;
 import other.OrderState;
+import util.ImageUtil;
 
 public class HotelStaffManagementOrderController {
 
@@ -19,7 +27,9 @@ public class HotelStaffManagementOrderController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button setToException;// 设置为异常订单
+    private Label stateLabel;
+    @FXML
+    private Button setToException;// 设置为异常订单
 	@FXML
 	private Button setToDone;// 设置为已执行订单
 	@FXML
@@ -48,15 +58,13 @@ public class HotelStaffManagementOrderController {
 	private OrderVO order;
 	private HotelStaffVO hotelStaff;
 	private Order_blservice orderServcie;
-
-	public HotelStaffManagementOrderController() {
-
-	}
+    private LogOfUser_blServce logOfUser_blServce;
 
 	public void HotelStaffManagementOrderShow() {
 		this.leftIdLabel.setText(this.hotelStaff.getId());
-		this.leftIdLabel.setText(this.hotelStaff.getUsername());
-		this.IdLabel.setText(this.order.getUserID());
+        this.leftNameLabel.setText(this.hotelStaff.getUsername());
+        this.myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.IdLabel.setText(this.order.getUserID());
 		this.nameLabel.setText(this.order.getUserName());
 		this.hotelName.setText(this.hotelStaff.getHotelName());
 		this.roomType.setText(this.order.getRoomType().toString());
@@ -71,25 +79,59 @@ public class HotelStaffManagementOrderController {
 	}
 
 	public void initialize(Main main, HotelStaffVO hotelStaff, OrderVO order) {
-		// TODO Auto-generated method stub
+
 		this.mainScene = main;
 		this.hotelStaff = hotelStaff;
 		this.order = order;
-		this.HotelStaffManagementOrderShow();
+        this.orderServcie = new Order_bl();
+        this.HotelStaffManagementOrderShow();
+        this.logOfUser_blServce = new LogOfUser_blServceImpl();
 
 	}
 
 	// 设置为异常订单按钮监听方法
-	public void handleSetToException() {
-		this.order.setOrderState(OrderState.FINISHED);
-		this.orderServcie.changeState(order);
-	}
+    @FXML
+    private void handleSetToException() {
+        this.order.setOrderState(OrderState.ABNOMAL);
+        this.orderServcie.changeState(order);
+
+        /**
+         * 置为异常订单时修改用户的信用值，并生成信用记录
+         */
+        LogofUserVO logofUserVO = new LogofUserVO();
+        logofUserVO.setUserid(order.getUserID());
+        logofUserVO.setChange(-(int) (order.getPrice() / 2));
+        logofUserVO.setDateTime(LocalDateTime.now());
+        logofUserVO.setContent("由于订单号为 " + order.getOrderID() + " 的订单异常");
+        logOfUser_blServce.addLogOfUser(logofUserVO);
+
+        this.stateOfOrder.setText(this.order.getOrderState().toString());
+        this.stateLabel.setText("已更改！");
+    }
 
 	// 设置为已完成订单监听方法
-	public void handleSetToDone() {
-		this.order.setOrderState(OrderState.FINISHED);
-		this.orderServcie.changeState(order);
-	}
+    @FXML
+    private void handleSetToDone() {
+        if (this.order.getEntryTime().equals(LocalDate.now())) {
+            this.order.setOrderState(OrderState.FINISHED);
+            this.orderServcie.changeState(order);
+
+            /**
+             * 完成订单时，需要对于用户的信用值改变进行记录
+             */
+            LogofUserVO logofUserVO = new LogofUserVO();
+            logofUserVO.setUserid(order.getUserID());
+            logofUserVO.setChange((int) (order.getPrice() / 2));
+            logofUserVO.setDateTime(LocalDateTime.now());
+            logofUserVO.setContent("由于订单号为 " + order.getOrderID() + " 的订单完成");
+            logOfUser_blServce.addLogOfUser(logofUserVO);
+
+            this.stateOfOrder.setText(this.order.getOrderState().toString());
+            this.stateLabel.setText("已更改！");
+        } else {
+            this.stateLabel.setText("只能执行当天的订单！");
+        }
+    }
 
 	// 返回按钮监听方法
 	public void handleBack() {
@@ -98,18 +140,18 @@ public class HotelStaffManagementOrderController {
 
 	// 订单状态设置按钮控制方法
 	private void controlSetOrderState() {
-		if (this.order.getOrderState().equals(OrderState.UNFINISHED)) {
-			this.setToDone.setDisable(true);
-			this.setToException.setDisable(true);
-		} else if (this.order.getOrderState().equals(OrderState.FINISHED)) {
-			this.setToDone.setDisable(false);
-			this.setToException.setDisable(false);
-		} else if (this.order.getOrderState().equals(OrderState.ASSESSED)) {
-			this.setToDone.setDisable(false);
-			this.setToException.setDisable(false);
-		} else if (this.order.getOrderState().equals(OrderState.ABNOMAL)) {
-			this.setToDone.setDisable(true);
-			this.setToException.setDisable(false);
-		}
+        if (this.order.getOrderState().equals(OrderState.UNFINISHED)) {
+            this.setToDone.setDisable(false);
+            this.setToException.setDisable(false);
+        } else if (this.order.getOrderState().equals(OrderState.FINISHED)) {
+            this.setToDone.setDisable(true);
+            this.setToException.setDisable(true);
+        } else if (this.order.getOrderState().equals(OrderState.ASSESSED)) {
+            this.setToDone.setDisable(true);
+            this.setToException.setDisable(true);
+        } else if (this.order.getOrderState().equals(OrderState.ABNOMAL)) {
+            this.setToDone.setDisable(false);
+            this.setToException.setDisable(true);
+        }
 	}
 }

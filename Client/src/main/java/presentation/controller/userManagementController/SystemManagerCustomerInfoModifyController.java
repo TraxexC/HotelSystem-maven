@@ -13,14 +13,20 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerCustomerInfoModifyController {
 
 	@FXML
 	private Button save;
 	@FXML
-	private Button back;
+    private ImageView myPicture;
+    @FXML
+    private ImageView changedPic;
+    @FXML
+    private Button back;
 	@FXML
 	private Label leftIdLabel;
 	@FXML
@@ -56,7 +62,9 @@ public class SystemManagerCustomerInfoModifyController {
 		// left
 		leftIdLabel.setText(this.systemManagerVO.getId());
 		leftNameLabel.setText(this.systemManagerVO.getUserName());
-		SystemManagerCustomerInfoModifyShow(mainScene);
+        myPicture.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
+        changedPic.setImage(ImageUtil.setImage(this.customerVO.getImage()));
+        SystemManagerCustomerInfoModifyShow(mainScene);
 	}
 
 
@@ -100,7 +108,13 @@ public class SystemManagerCustomerInfoModifyController {
 			alert.showAndWait();
 		}
 	}
-	@FXML
+
+    @FXML
+    private void handleChange() {
+        this.customerVO.setImage(ImageUtil.setImagePath(changedPic));
+    }
+
+    @FXML
 	private void handleBack(){
 		mainScene.showSystemManagerCustomerInfoViewScene(systemManagerVO, customerVO);
 	}

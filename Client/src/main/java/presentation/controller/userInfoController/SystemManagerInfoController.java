@@ -1,12 +1,12 @@
 package presentation.controller.userInfoController;
 
 import VO.SystemManagerVO;
-import blservice.UserInfo_blservice;
-import blservice.impl.UserInfo_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerInfoController {
 
@@ -15,7 +15,11 @@ public class SystemManagerInfoController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button modifyInfo;
+    private ImageView myPicture;
+    @FXML
+    private ImageView nowPic;
+    @FXML
+    private Button modifyInfo;
 	@FXML
 	private Button modifyPassword;
 	@FXML
@@ -29,11 +33,6 @@ public class SystemManagerInfoController {
 
 	private Main mainScene;
 	private SystemManagerVO systemManager;
-	private UserInfo_blservice systemManagerInfoService;
-
-	public SystemManagerInfoController() {
-		systemManagerInfoService = new UserInfo_bl();
-	}
 
 	public void initialize(Main main, SystemManagerVO systemManager) {
 		this.mainScene = main;
@@ -44,9 +43,11 @@ public class SystemManagerInfoController {
 	public void SystemManagerInfoShow() {
 		leftIdLabel.setText(systemManager.getId());
 		leftNameLabel.setText(systemManager.getUserName());
-		idLabel.setText(systemManager.getId());
+        myPicture.setImage(ImageUtil.setImage(this.systemManager.getImage()));
+        nowPic.setImage(ImageUtil.setImage(this.systemManager.getImage()));
+        idLabel.setText(systemManager.getId());
 		nameLabel.setText(systemManager.getUserName());
-		// this.phone.setText(value);
+        this.phone.setText(systemManager.getPhone());
 
 	}
 

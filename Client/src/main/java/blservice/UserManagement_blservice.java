@@ -30,8 +30,12 @@ public interface UserManagement_blservice {
 	public boolean modifySystemStaff(SystemStaffVO systemStaffVO);
 	
 	public boolean addSystemStaff(SystemStaffVO staffVO);
-	
-	public boolean addHotel(HotelInfoVO hotelInfoVO);
+
+    public boolean deleSystemStaff(SystemStaffVO vo);
+
+    public boolean deleCustomer(CustomerVO vo);
+
+    public boolean addHotel(HotelInfoVO hotelInfoVO);
 	
     public boolean addHotelStaff(HotelStaffVO hotelStaffVO);
     

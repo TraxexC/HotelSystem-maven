@@ -2,13 +2,12 @@ package presentation.controller.userManagementController;
 
 import VO.SystemManagerVO;
 import VO.SystemStaffVO;
-import blservice.UserInfo_blservice;
-import blservice.impl.UserInfo_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerSystemStaffInfoViewController {
 
@@ -25,19 +24,17 @@ public class SystemManagerSystemStaffInfoViewController {
 	@FXML
 	private Label nameLabel;
 	@FXML
-	private Label districtName;
-	@FXML
-	private Label myPicture;
-	@FXML
+    private Label phoneNum;
+    @FXML
 	private ImageView image;
-	
-	private Main mainScene;
+    @FXML
+    private ImageView myPicture;
+
+    private Main mainScene;
 	private SystemManagerVO systemManagerVO;
 	private SystemStaffVO systemStaffVO;
-	private UserInfo_blservice systemStaffInfoService;
 	
 	public SystemManagerSystemStaffInfoViewController(){
-		systemStaffInfoService = new UserInfo_bl();
 	}
 	
 	public void initialize(Main mainScene,SystemManagerVO systemManagerVO,SystemStaffVO systemStaffVO) {
@@ -47,22 +44,24 @@ public class SystemManagerSystemStaffInfoViewController {
 		//left
 		leftIdLabel.setText(this.systemManagerVO.getId());
 		leftNameLabel.setText(this.systemManagerVO.getUserName());
-		SystemManagerSystemStaffInfoViewShow(mainScene);
+        myPicture.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
+        image.setImage(ImageUtil.setImage(this.systemStaffVO.getImage()));
+        SystemManagerSystemStaffInfoViewShow(mainScene);
 	}
 	
 	public void SystemManagerSystemStaffInfoViewShow(Main mainScene) {
 		
 		idLabel.setText(systemStaffVO.getId());
 		nameLabel.setText(systemStaffVO.getUsername());
-		districtName.setText(systemStaffVO.getBusinessDistrict());
-		
-	}
+        phoneNum.setText(systemStaffVO.getPhone());
+    }
 	
 	@FXML//modify
 	private void handleModify(){
 		mainScene.showSystemManagerSystemStaffInfoModfyScene(systemManagerVO, systemStaffVO);
 	}
-	@FXML
+
+    @FXML
 	private void handleBack(){
 		mainScene.showSystemStaffManagementScene(systemManagerVO);
 	}

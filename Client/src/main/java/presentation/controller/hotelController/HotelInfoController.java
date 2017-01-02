@@ -23,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class HotelInfoController {
 	@FXML
@@ -36,10 +37,12 @@ public class HotelInfoController {
 	@FXML
 	private Button back;
 	@FXML
-	private ImageView hotelPicture1;
-	@FXML
-	private ImageView hotelPicture2;
-	@FXML
+    private ImageView hotelPicture;
+    @FXML
+    private Button picLeftButton;
+    @FXML
+    private Button picRightButon;
+    @FXML
 	private Label hotelName;
 	@FXML
 	private Label address;
@@ -71,12 +74,15 @@ public class HotelInfoController {
 	private Label_blService labelService;
 	private HotelStrategy_blservice hotelStrategyService;
 	private ObservableList<HotelRoomInfoVO> roomData = FXCollections.observableArrayList();
+    private String ImagePath;
+    private String[] pathSplit;
+    private int picShown;
 
 	public HotelInfoController() {
 	}
 
 	public void initialize(Main main, CustomerVO customer, HotelInfoVO hotel) {
-		// TODO Auto-generated method stub
+
 		this.mainScene = main;
 		this.service = new Hotel_bl();
 		this.roomService = new Room_blServiceImpl();
@@ -85,15 +91,22 @@ public class HotelInfoController {
 		this.customer = customer;
 		this.hotel = hotel;
 		this.hotelRoomInfo = roomService.getAllRoom(this.hotel.getHotelID());
-		this.refreshTable();
+
+        this.ImagePath = this.hotel.getImage();
+        this.pathSplit = this.ImagePath.split(";");
+        this.picShown = 0;
+        this.refreshTable();
+
 		this.HotelInfoShow();
 
 	}
 
-	public void HotelInfoShow() {
-		this.leftIdLabel.setText(this.customer.getId());
+    @FXML
+    private void HotelInfoShow() {
+        this.leftIdLabel.setText(this.customer.getId());
 		this.leftNameLabel.setText(this.customer.getUsername());
-		this.hotelName.setText(this.hotel.getHotelName());
+        this.myPicture.setImage(ImageUtil.setImage(customer.getImage()));
+        this.hotelName.setText(this.hotel.getHotelName());
 
 		this.address.setText(this.hotel.getHotelAddress());
 		this.district.setText(this.hotel.getHotelDistrict());
@@ -102,32 +115,37 @@ public class HotelInfoController {
 
 		// 标签方法
 		this.strategy.setText(this.getStrategyString());
-		this.grade.setText(this.hotel.getRank());
-		this.tag.setText(this.getTagString());
+        this.grade.setText(this.service.getHotelGrade(this.hotel.getHotelID()));
+        // this.tag.setText(this.getTagString());
 
-		// 图片方法
-		// this.hotelPicture2
+        // 图片显示方法
+        this.showPic();
+    }
+
+    @FXML
+    private void handleReserveRoom() {
+        this.mainScene.showCustomerBookHotelScene(customer, hotel);
 	}
 
-	public void handleReserveRoom() {
-		this.mainScene.showCustomerBookHotelScene(customer, hotel);
-	}
-
-	public void handleBack() {
-		this.mainScene.showCustomerHotelViewScene(customer);
+    @FXML
+    private void handleBack() {
+        this.mainScene.showCustomerHotelViewScene(customer);
 	}
 
 	// 酒店促销策略显示方法
 	private String getStrategyString() {
 		String strategyInfo = "";
 		int count = 0;
-		while (count < this.hotelStrategyService.getListOfHotelStrategys(this.hotel.getHotelID()).size()) {
-			strategyInfo += this.hotelStrategyService.getListOfHotelStrategys(this.hotel.getHotelID()).get(count)
-					.getStrategyInfo();
-			count++;
-		}
-		return strategyInfo;
-	}
+        if (this.hotelStrategyService.getListOfHotelStrategys(this.hotel.getHotelID()).size() > 0) {
+            while (count < this.hotelStrategyService.getListOfHotelStrategys(this.hotel.getHotelID()).size()) {
+                strategyInfo += this.hotelStrategyService.getListOfHotelStrategys(this.hotel.getHotelID()).get(count)
+                        .getStrategyName() + ";";
+                count++;
+            }
+            return strategyInfo;
+        }
+        return "暂无策略";
+    }
 
 	// 酒店标签显示方法
 	private String getTagString() {
@@ -143,12 +161,35 @@ public class HotelInfoController {
 	private void refreshTable() {
 		int count = 0;
 		while (count < this.hotelRoomInfo.size()) {
-			this.roomData.add(this.hotelRoomInfo.get(count));
-			count++;
+            if (this.hotelRoomInfo.get(count).getRoomNum() > 0) {
+                this.roomData.add(this.hotelRoomInfo.get(count));
+            }
+            count++;
 		}
 		this.roomType.setCellValueFactory(cellData -> cellData.getValue().getRoomTypeProperty());
 		this.roomRemain.setCellValueFactory(cellData -> cellData.getValue().getRoomRemainProperty());
 		this.roomPrice.setCellValueFactory(cellData -> cellData.getValue().getRoomPriceProperty());
 		this.roomInfoTabel.setItems(roomData);
 	}
+
+    @FXML
+    private void handlePicLeft() {
+        if (picShown > 0) {
+            this.picShown -= 1;
+            this.showPic();
+        }
+    }
+
+    @FXML
+    private void handlePicRight() {
+        if (picShown < this.pathSplit.length - 1) {
+            this.picShown += 1;
+            this.showPic();
+        }
+    }
+
+    private void showPic() {
+        // TODO Auto-generated method stub
+        this.hotelPicture.setImage(ImageUtil.setImage(this.pathSplit[this.picShown]));
+    }
 }

@@ -1,7 +1,5 @@
 package blservice;
 
-import java.util.ArrayList;
-
 import VO.VipStrategyVO;
 
 public interface VipStrategy_blService {
@@ -12,7 +10,15 @@ public interface VipStrategy_blService {
 
 	public VipStrategyVO getVipStrategy();
 
-	//·µ»Ø4¼¶£¬5¼¶µÄ»áÔ±
-	public VipStrategyVO getVipstrategy(String district);
+	//ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½Ä»ï¿½Ô±
+    public VipStrategyVO getVipstrategy(String city, String district);
+
+    public boolean makeSuperVipStrategy(VipStrategyVO vipStrategyVO);
+
+    public boolean modifuSuperVipStrategy(VipStrategyVO vipStrategyVO);
+
+    public boolean deleteSuperVipStrategy(String city, String district);
+
+    public int getSuperVipNum();
 
 }

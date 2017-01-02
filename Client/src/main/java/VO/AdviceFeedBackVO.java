@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import other.AdviceFeedBackState;
 import other.IdGernerateServiceImpl;
+import util.DateUtil;
 
 public class AdviceFeedBackVO {
 
@@ -81,16 +82,24 @@ public class AdviceFeedBackVO {
 		this.userID = userID;
 	}
 
+    public StringProperty getAstateProperty() {
+        return new SimpleStringProperty(this.state.toString());
+    }
+
+    public StringProperty getUserIdProperty() {
+        return new SimpleStringProperty(this.userID);
+    }
+
 	public StringProperty getSendTimeProperty() {
-		return new SimpleStringProperty(this.sendTime.toString());
-	}
+        return new SimpleStringProperty(DateUtil.format(this.sendTime));
+    }
 
 	public StringProperty getReplyTimeProperty() {
 		if (this.replyTime==null) {
 			return new SimpleStringProperty("Î´»Ø¸´");
 		}
-		return new SimpleStringProperty(this.replyTime.toString());
-	}
+        return new SimpleStringProperty(DateUtil.format(this.replyTime));
+    }
 
 	public StringProperty getSendContentProperty() {
 		return new SimpleStringProperty(this.AdviceFeedBack_content);

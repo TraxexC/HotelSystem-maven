@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import util.ImageUtil;
 
 public class SystemManagerMainController {
 
@@ -23,7 +24,9 @@ public class SystemManagerMainController {
 	@FXML
 	private Button newHotel;
 	@FXML
-	private Button maintainPersonalInfo;// 维护个人信息
+    private Button newSystemStaff;
+    @FXML
+    private Button maintainPersonalInfo;// 维护个人信息
 	@FXML
 	private Button exit;
 	@FXML
@@ -59,7 +62,8 @@ public class SystemManagerMainController {
 		// 左栏
 		leftIdLabel.setText(systemManagerVO.getId());
 		leftNameLabel.setText(systemManagerVO.getUserName());
-		// 右栏
+        myPicture.setImage(ImageUtil.setImage(systemManagerVO.getImage()));
+        // 右栏
 		LocalDate nowDate = LocalDate.now();
 		dateTime.setText(util.DateUtil.format(nowDate));
 		userNumber.setText(String.valueOf(userManagement_blservice.getCustomerNum()));
@@ -81,7 +85,12 @@ public class SystemManagerMainController {
 		mainScene.showSystemManagerHotelRegisterScene(systemManagerVO);
 	}
 
-	@FXML
+    @FXML
+    private void handleRegisterNewSystemStaff() {
+        mainScene.showSystemManagerAddSystemStaffScene(systemManagerVO);
+    }
+
+    @FXML
 	private void handleMaintainMyInfo() {
 		mainScene.showSystemManagerInfoScene(systemManagerVO);
 	}

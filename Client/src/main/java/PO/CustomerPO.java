@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import VO.CustomerVO;
 import other.memberState;
 
-public class CustomerPO implements Serializable{
-	/**
+public class CustomerPO implements Serializable {
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -20,23 +20,36 @@ public class CustomerPO implements Serializable{
 	private LocalDate birthday;
 	public String companyName;
 	private memberState state;
-	
+    private String image;
+
+    private boolean loginState;
+
 	public CustomerPO() {
 	}
 
-	public CustomerPO(CustomerVO customerVO){
-		super();
-		this.birthday = customerVO.getBirthday();
-		this.id = customerVO.getId();
-		this.userName = customerVO.getUsername();
-		//是否需要电话号码
-		this.phone = customerVO.getPhone();
-		this.companyName = customerVO.getCompanyName();
-		this.credit = customerVO.getCredit();
-		this.memberGrade = customerVO.getMemberGrade();
-		this.state = customerVO.getMemberState();
-	}
-	
+    public CustomerPO(CustomerVO customerVO) {
+        super();
+        this.birthday = customerVO.getBirthday();
+        this.id = customerVO.getId();
+        this.userName = customerVO.getUsername();
+        // 是否需要电话号码
+        this.phone = customerVO.getPhone();
+        this.companyName = customerVO.getCompanyName();
+        this.credit = customerVO.getCredit();
+        this.memberGrade = customerVO.getMemberGrade();
+        this.state = customerVO.getMemberState();
+        this.image = customerVO.getImage();
+        this.loginState = customerVO.isOnline();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 	public String getId() {
 		return id;
 	}
@@ -100,5 +113,10 @@ public class CustomerPO implements Serializable{
 	public void setState(memberState state) {
 		this.state = state;
 	}
-	
+
+    public boolean isOnline() {
+        // TODO Auto-generated method stub
+        return this.loginState;
+    }
+
 }

@@ -13,7 +13,8 @@ public class VipVO {
 	private int maxCredit;
 	private int Vipgrade;//
 	private double discount;
-	private String district;//商圈
+    private String city;
+    private String district;//商圈
 	
 	//会员
 	public VipVO(int min, int max, int gr, double disc) {
@@ -30,10 +31,12 @@ public class VipVO {
 	//VIP 会员
 	public VipVO(SuperVipPO superVipPO) {
 		super();
-		this.district = superVipPO.getDistrict();
+        this.city = superVipPO.getCity();
+        this.district = superVipPO.getDistrict();
 		this.Vipgrade = superVipPO.getVipgrade();
 		this.discount =superVipPO.getDiscount();
-	}
+        this.id = superVipPO.getId();
+    }
 	
 	public VipVO(VipPO vipPO) {
 		this.maxCredit = vipPO.getMaxcredit();
@@ -92,7 +95,15 @@ public class VipVO {
 		return new SimpleStringProperty(String.valueOf(minCredit));
 	}
 
-	public String getDistrict() {
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
 		return district;
 	}
 

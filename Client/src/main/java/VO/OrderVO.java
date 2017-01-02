@@ -175,7 +175,13 @@ public class OrderVO {
 		if (this.orderState.equals(OrderState.UNFINISHED)) {
 			return new SimpleStringProperty("待执行");
 		}
-		return null;
+        if (this.orderState.equals(OrderState.ASSESSED)) {
+            return new SimpleStringProperty("已评价");
+        }
+        if (this.orderState.equals(OrderState.REVACATION)) {
+            return new SimpleStringProperty("已撤销");
+        }
+        return null;
 	}
 
 	public StringProperty getEntryTimeProperty() {
@@ -195,8 +201,11 @@ public class OrderVO {
 	}
 
 	public StringProperty getRoomInfoProperty() {
-		return new SimpleStringProperty(this.roomType.toString() + "*" + String.valueOf(this.getRoomNum()));
-	}
+        if (this.roomType != null) {
+            return new SimpleStringProperty(this.roomType.toString() + "*" + String.valueOf(this.getRoomNum()));
+        }
+        return new SimpleStringProperty("暂无");
+    }
 
 	public StringProperty getHotelNameProperty() {
 		// TODO Auto-generated method stub

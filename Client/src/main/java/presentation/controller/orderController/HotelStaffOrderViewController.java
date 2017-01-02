@@ -2,7 +2,6 @@ package presentation.controller.orderController;
 
 import java.util.ArrayList;
 
-import VO.HotelInfoVO;
 import VO.HotelStaffVO;
 import VO.OrderVO;
 import blservice.Order_blservice;
@@ -16,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class HotelStaffOrderViewController {
 
@@ -26,7 +26,9 @@ public class HotelStaffOrderViewController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button viewOrderInfo;// 查看订单详情
+    private Label stateLabel;
+    @FXML
+    private Button viewOrderInfo;// 查看订单详情
 	@FXML
 	private Button Undo;// 未执行
 	@FXML
@@ -36,7 +38,9 @@ public class HotelStaffOrderViewController {
 	@FXML
 	private Button back;
 	@FXML
-	private Label orderType;
+    private Button Revocation;
+    @FXML
+    private Label orderType;
 	@FXML
 	private Label hotelName;
 	@FXML
@@ -67,56 +71,72 @@ public class HotelStaffOrderViewController {
 	public void HotelStaffOrderViewShow() {
 		this.leftIdLabel.setText(this.hotelStaff.getHotelId());
 		this.leftNameLabel.setText(this.hotelStaff.getUsername());
-		this.hotelName.setText(this.hotelStaff.getHotelName());
+        this.myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.hotelName.setText(this.hotelStaff.getHotelName());
 
 	}
 
 	public void initialize(Main main, HotelStaffVO hotelStaff) {
-		// TODO Auto-generated method stub
 		this.mainScene = main;
 		this.hotelStaff = hotelStaff;
 		this.orderService = new Order_bl();
 
-		this.orderList = this.orderService.getUnfinishedOrders(this.hotelStaff.getHotelId());
-		this.refreshTable();
+        this.orderList = this.orderService.getHotelUndoOrderList(this.hotelStaff.getHotelId());
+        this.refreshTable();
 
 		this.orderType.setText("未执行订单列表");
 		this.HotelStaffOrderViewShow();
 	}
 
 	// 返回按钮监听方法
-	public void handleBack() {
-		this.mainScene.showHotelStaffMainScene(hotelStaff);
+    @FXML
+    private void handleBack() {
+        this.mainScene.showHotelStaffMainScene(hotelStaff);
 	}
 
 	// 订单详细信息按钮监听方法
-	public void handleViewOrderInfo() {
-		int focus = 0;
-		focus = this.orderTable.getSelectionModel().getFocusedIndex();
-		this.mainScene.showHotelStaffManagementOrderScene(hotelStaff, this.orderList.get(focus));
+    @FXML
+    private void handleViewOrderInfo() {
+
+        OrderVO focus = this.orderTable.getSelectionModel().getSelectedItem();
+        if (focus != null)
+            this.mainScene.showHotelStaffManagementOrderScene(hotelStaff, focus);
+        else
+            this.stateLabel.setText("未选择任何订单！");
+
 	}
 
 	// 未完成订单列表按钮监听方法
-	public void handleUndo() {
-		this.orderList = this.orderService.getUnfinishedOrders(this.hotelStaff.getHotelId());
-		this.refreshTable();
+    @FXML
+    private void handleUndo() {
+        this.orderList = this.orderService.getHotelUndoOrderList(this.hotelStaff.getHotelId());
+        this.refreshTable();
 		this.orderType.setText("未执行订单列表");
 	}
 
 	// 已完成订单列表按钮监听方法
-	public void handleDone() {
-		this.orderList = this.orderService.getHotelFinishedOrderList(this.hotelStaff.getHotelId());
+    @FXML
+    private void handleDone() {
+        this.orderList = this.orderService.getHotelFinishedOrderList(this.hotelStaff.getHotelId());
 		this.refreshTable();
 
 		this.orderType.setText("已执行订单列表");
 	}
 
 	// 异常订单列表按钮监听方法
-	public void handleException() {
-		this.orderList = this.orderService.getAbnomalOrders(this.hotelStaff.getHotelId());
-		this.refreshTable();
+    @FXML
+    private void handleException() {
+        this.orderList = this.orderService.getHotelAbnormalOrderList(this.hotelStaff.getHotelId());
+        this.refreshTable();
 		this.orderType.setText("异常订单列表");
 	}
+
+    @FXML
+    private void handleRevocation() {
+        this.orderList = this.orderService.getRevocationOrder(this.hotelStaff.getHotelId());
+        this.refreshTable();
+        this.orderType.setText("已撤销订单列表");
+    }
 
 	// 刷新表格方法
 	private void refreshTable() {
@@ -124,7 +144,8 @@ public class HotelStaffOrderViewController {
 		int count = 0;
 		while (count < this.orderList.size()) {
 			this.orderData.add(this.orderList.get(count));
-		}
+            count++;
+        }
 		this.orderId.setCellValueFactory(cellData -> cellData.getValue().getOrderIDProperty());
 		this.customerId.setCellValueFactory(cellData -> cellData.getValue().getCustomerIDProperty());
 		this.arriveTime.setCellValueFactory(cellData -> cellData.getValue().getEntryTimeProperty());

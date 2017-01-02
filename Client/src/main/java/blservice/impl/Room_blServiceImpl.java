@@ -11,23 +11,31 @@ import data.service.RoomDataService;
 public class Room_blServiceImpl implements Room_blService{
 
 	RoomDataService roomDataService = RemoteHelper.getInstance().getRoomDataService();
-	@Override
-	public ArrayList<HotelRoomInfoVO> getAllRoom(String hotelid) {
-		try{
-		ArrayList<RoomPO>  roomPOs = roomDataService.getAllRoomPO(hotelid);
-		ArrayList<HotelRoomInfoVO> roomInfoVOs = new ArrayList<HotelRoomInfoVO>();
-		for(RoomPO po:roomPOs){
-			roomInfoVOs.add(new HotelRoomInfoVO(po));
-		}
-		return roomInfoVOs;
-		}catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
-	@Override
-	public HotelRoomInfoVO findRoom(String roomID) {
+    /**
+     * @param 酒店id
+     * @return 返回旧电脑的所有房间信息
+     */
+    public ArrayList<HotelRoomInfoVO> getAllRoom(String hotelid) {
+        ArrayList<HotelRoomInfoVO> roomInfoVOs = new ArrayList<HotelRoomInfoVO>();
+        try{
+            ArrayList<RoomPO>  roomPOs = roomDataService.getAllRoomPO(hotelid);
+            for(RoomPO po:roomPOs){
+                roomInfoVOs.add(new HotelRoomInfoVO(po));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return roomInfoVOs;
+    }
+
+    /**
+     * @param 房间id
+     *
+     * @return
+     * 返回对应的房间的信息
+     */
+    public HotelRoomInfoVO findRoom(String roomID) {
 		try{
 			RoomPO roomPO = roomDataService.findRoomPO(roomID);
 			return new HotelRoomInfoVO(roomPO);
@@ -35,10 +43,15 @@ public class Room_blServiceImpl implements Room_blService{
 		    e.printStackTrace();
 		    return null;
 		}
-	}
+    }
 
-	@Override
-	public boolean modify(HotelRoomInfoVO room) {
+    /**
+     * @param 房间的信息
+     *
+     * @return
+     * 修改房间信息
+     */
+    public boolean modify(HotelRoomInfoVO room) {
 	    try{
 	    	RoomPO roomPO = new RoomPO(room);
 	    	roomDataService.modify(roomPO);
@@ -47,10 +60,15 @@ public class Room_blServiceImpl implements Room_blService{
 	    	 e.printStackTrace();
 			 return false;
 		}
-	}
+    }
 
-	@Override
-	public boolean addRoom(HotelRoomInfoVO room) {
+    /**
+     * @param 房间信息
+     *
+     * @return
+     * 添加房间
+     */
+    public boolean addRoom(HotelRoomInfoVO room) {
 		try{
 	    	RoomPO roomPO = new RoomPO(room);
 	    	roomDataService.addRoom(roomPO);

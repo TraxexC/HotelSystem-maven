@@ -2,20 +2,20 @@ package presentation.controller.userManagementController;
 
 import java.util.Optional;
 
-import com.sun.javafx.image.impl.ByteIndexed.Getter;
-
 import VO.HotelStaffVO;
 import VO.SystemManagerVO;
 import blservice.UserInfo_blservice;
 import blservice.impl.UserInfo_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerHotelStaffInfoModifyController {
 
@@ -24,7 +24,11 @@ public class SystemManagerHotelStaffInfoModifyController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button save;
+    private ImageView myPicture;
+    @FXML
+    private ImageView changedPic;
+    @FXML
+    private Button save;
 	@FXML
 	private Button cancel;
 	@FXML
@@ -32,9 +36,9 @@ public class SystemManagerHotelStaffInfoModifyController {
 	@FXML
 	private TextField name;
 	@FXML
-	private Label hotelId;
-	@FXML
-	private Label hotelName;
+    private TextField hotelName;
+    @FXML
+    private Label hotelId;
 	@FXML
 	private Button changePicture;
 
@@ -54,7 +58,9 @@ public class SystemManagerHotelStaffInfoModifyController {
 		// 初始化
 		leftIdLabel.setText(systemManagerVO.getId());
 		leftNameLabel.setText(systemManagerVO.getUserName());
-		SystemManagerHotelStaffInfoModifyShow(mainScene);
+        myPicture.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
+        changedPic.setImage(ImageUtil.setImage(this.hotelStaffVO.getImage()));
+        SystemManagerHotelStaffInfoModifyShow(mainScene);
 	}
 
 	public void SystemManagerHotelStaffInfoModifyShow(Main mainScene) {
@@ -75,9 +81,11 @@ public class SystemManagerHotelStaffInfoModifyController {
 		String hotelID = hotelId.getText();
 		String hotelNameString = hotelName.getText();
 		//构造新的hotel staff VO
-		hotelStaffVO = new HotelStaffVO(idString, nameString, hotelID, hotelNameString);
-
-		boolean isModify = blservice.modifyHotelStaff(hotelStaffVO);
+        hotelStaffVO.setHotelId(hotelID);
+        hotelStaffVO.setId(idString);
+        hotelStaffVO.setHotelName(hotelNameString);
+        hotelStaffVO.setUsername(nameString);
+        boolean isModify = blservice.modifyHotelStaff(hotelStaffVO);
 		//判断
 		if (isModify) {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -98,7 +106,13 @@ public class SystemManagerHotelStaffInfoModifyController {
 			alert.showAndWait();
 		}
 	}
-	@FXML//返回
+
+    @FXML
+    private void handleChange() {
+        this.hotelStaffVO.setImage(ImageUtil.setImagePath(changedPic));
+    }
+
+    @FXML//返回
 	private void handleBack(){
 		mainScene.showSystemManagerHotelStaffInfoViewScene(systemManagerVO, hotelStaffVO);
 	}

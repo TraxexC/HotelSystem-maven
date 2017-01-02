@@ -13,7 +13,8 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="143.0">
                <children>
-                  <ImageView fx:id="myPicture" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView fx:id="myPicture" fitHeight="160.0" fitWidth="160.0" layoutX="29.0" layoutY="14.0"
+                              pickOnBounds="true" preserveRatio="true"/>
                   <Label layoutX="33.0" layoutY="180.0" text="ID" />
                   <Label fx:id="leftIdLabel" layoutX="95.0" layoutY="180.0" text="Label" />
                   <Label layoutX="33.0" layoutY="210.0" text="姓名" />
@@ -64,11 +65,6 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="酒店标签" GridPane.rowIndex="6">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
                         <Label text="房间价格" GridPane.rowIndex="8">
                            <font>
                               <Font size="14.0" />
@@ -104,22 +100,27 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="tag" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                         <Label fx:id="restRoomNumber" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="restRoomNumber" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                         <Label text="酒店优惠策略" GridPane.rowIndex="4">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="酒店优惠策略" GridPane.rowIndex="4">
+                         <Label fx:id="price" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="price" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                         <Label text="客房总数概况" GridPane.rowIndex="6">
+                             <font>
+                                 <Font size="14.0"/>
+                             </font>
+                         </Label>
+                         <Label fx:id="RoomNumber" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -141,8 +142,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <ImageView fx:id="hotelPicture1" fitHeight="150.0" fitWidth="200.0" layoutX="63.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="hotelPicture2" fitHeight="150.0" fitWidth="200.0" layoutX="259.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView fx:id="hotelPicture" fitHeight="150.0" fitWidth="150.0" layoutX="186.0" layoutY="69.0"
+                              pickOnBounds="true" preserveRatio="true"/>
+                   <Button fx:id="picLeftButton" layoutX="141.0" layoutY="118.0" mnemonicParsing="false"
+                           onAction="#handlePicLeft" prefHeight="52.0" prefWidth="36.0" text="&lt;"/>
+                   <Button fx:id="picRightButon" layoutX="348.0" layoutY="118.0" mnemonicParsing="false"
+                           onAction="#handlePicRight" prefHeight="52.0" prefWidth="36.0" text="&gt;"/>
                </children>
             </AnchorPane>
          </items>

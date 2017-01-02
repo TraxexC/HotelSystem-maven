@@ -2,13 +2,12 @@ package presentation.controller.userManagementController;
 
 import VO.HotelStaffVO;
 import VO.SystemManagerVO;
-import blservice.UserInfo_blservice;
-import blservice.impl.UserInfo_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerHotelStaffInfoViewController {
 
@@ -17,7 +16,9 @@ public class SystemManagerHotelStaffInfoViewController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button modifyInfo;
+    private ImageView myPicture;
+    @FXML
+    private Button modifyInfo;
 	@FXML
 	private Button back;
 	@FXML
@@ -32,13 +33,8 @@ public class SystemManagerHotelStaffInfoViewController {
 	private ImageView image;
 
 	private Main mainScene;
-	private UserInfo_blservice blservice;
 	private SystemManagerVO systemManagerVO;
 	private HotelStaffVO hotelStaffVO;
-	
-	public SystemManagerHotelStaffInfoViewController() {
-		blservice = new UserInfo_bl();
-	}
 	
 	public void initialize(Main mainScene ,SystemManagerVO systemManagerVO,HotelStaffVO hotelStaffVO) {
 		//left
@@ -48,8 +44,9 @@ public class SystemManagerHotelStaffInfoViewController {
 		
 		leftIdLabel.setText(this.systemManagerVO.getId());
 		leftNameLabel.setText(this.systemManagerVO.getUserName());
-		
-		SystemManagerHotelStaffInfoViewShow(this.mainScene);
+        myPicture.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
+
+        SystemManagerHotelStaffInfoViewShow(this.mainScene);
 	}
 	
 	public void SystemManagerHotelStaffInfoViewShow(Main mainScene) {

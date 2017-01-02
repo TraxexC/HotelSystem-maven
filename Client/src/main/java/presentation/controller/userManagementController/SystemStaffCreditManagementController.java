@@ -1,18 +1,21 @@
 package presentation.controller.userManagementController;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import VO.CustomerVO;
+import VO.LogofUserVO;
 import VO.SystemStaffVO;
-import blservice.UserInfo_blservice;
+import blservice.LogOfUser_blServce;
 import blservice.UserManagement_blservice;
-import blservice.impl.UserInfo_bl;
+import blservice.impl.LogOfUser_blServceImpl;
 import blservice.impl.UserManagement_bl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -20,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemStaffCreditManagementController {
 
@@ -28,7 +32,9 @@ public class SystemStaffCreditManagementController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button save;
+    private ImageView myPicture;
+    @FXML
+    private Button save;
 	@FXML
 	private Button back;
 	@FXML
@@ -50,13 +56,13 @@ public class SystemStaffCreditManagementController {
 	private SystemStaffVO systemStaffVO;
 	private CustomerVO customerVO;
 	private UserManagement_blservice userManagement_blservice;
-	private UserInfo_blservice userInfo_blservice;
-	private ObservableList<CustomerVO> customerData = FXCollections.observableArrayList();// 声明
+    private LogOfUser_blServce logOfUser_blServce;
+    private ObservableList<CustomerVO> customerData = FXCollections.observableArrayList();// 声明
 	
 	public SystemStaffCreditManagementController(){
 		userManagement_blservice = new UserManagement_bl();//充值信用值
-		userInfo_blservice = new UserInfo_bl();//获取用户信息
-	}
+        logOfUser_blServce = new LogOfUser_blServceImpl();
+    }
 	public void initialize(Main mainScene,SystemStaffVO systemStaffVO) {
 		this.mainScene = mainScene;
 		this.systemStaffVO = systemStaffVO;
@@ -65,7 +71,8 @@ public class SystemStaffCreditManagementController {
 	public void SystemStaffCreditManagementShow(Main mainScene) {
 		leftIdLabel.setText(systemStaffVO.getId());
 		leftNameLabel.setText(systemStaffVO.getUsername());
-	}
+        myPicture.setImage(ImageUtil.setImage(this.systemStaffVO.getImage()));
+    }
 	//搜索客户
 	@FXML
 	private void handleSearch(){
@@ -111,8 +118,14 @@ public class SystemStaffCreditManagementController {
 				int nowCridet = customer.getCredit()+Integer.valueOf(crditNum);
 				customer.setCredit(nowCridet);
 				boolean isOK = userManagement_blservice.modifyCustomer(customer);
-				if (isOK) {
-					Alert alert = new Alert(AlertType.INFORMATION);
+                LogofUserVO logofUserVO = new LogofUserVO();
+                logofUserVO.setDateTime(LocalDateTime.now());
+                logofUserVO.setChange(Integer.valueOf(crditNum));
+                logofUserVO.setContent("充值");
+                logofUserVO.setUserid(customer.getId());
+                boolean iscre = logOfUser_blServce.addLogOfUser(logofUserVO);
+                if (isOK && iscre) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setHeaderText("充值成功");
 					alert.setContentText("您成功为用户"+"\""+customer.getUsername()+"\""+"充值信用值："+crditNum+"点");
 					alert.setTitle("恭喜");

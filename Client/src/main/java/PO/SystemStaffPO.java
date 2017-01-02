@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import VO.SystemStaffVO;
 
-public class SystemStaffPO implements Serializable{
-	/**
+public class SystemStaffPO implements Serializable {
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -15,20 +15,27 @@ public class SystemStaffPO implements Serializable{
 	private String staffName;
 
 	private String phone;
-	
-	private String businessDistrict;
 
-	public SystemStaffPO() {
+    private String image;
+
+    public SystemStaffPO() {
 	}
 
-	public SystemStaffPO(SystemStaffVO systemStaffVO){
-		super();
+    public SystemStaffPO(SystemStaffVO systemStaffVO) {
+        super();
 		this.id = systemStaffVO.getId();
-		this.staffName = systemStaffVO.getUsername();
+        this.image = systemStaffVO.getImage();
+        this.staffName = systemStaffVO.getUsername();
 		this.phone = systemStaffVO.getPhone();
-		this.businessDistrict = systemStaffVO.getBusinessDistrict();
 	}
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 	public String getId() {
 		return id;
@@ -54,11 +61,4 @@ public class SystemStaffPO implements Serializable{
 		this.phone = phone;
 	}
 
-	public String getBusinessDistrict() {
-		return businessDistrict;
-	}
-
-	public void setBusinessDistrict(String businessDistrict) {
-		this.businessDistrict = businessDistrict;
-	}
 }

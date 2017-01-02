@@ -4,6 +4,7 @@ import VO.HotelInfoVO;
 import VO.HotelStaffVO;
 import VO.HotelStrategyVO;
 import blservice.HotelStrategy_blservice;
+import blservice.impl.HotelStrategy_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class HotelStrategyNewController {
 	@FXML
@@ -26,7 +28,9 @@ public class HotelStrategyNewController {
 	@FXML
 	private Label hotelName;
 	@FXML
-	private TextArea InputStrategyInfo;
+    private Label StateLabel;
+    @FXML
+    private TextArea InputStrategyInfo;
 	@FXML
 	private TextField InputStrategyName;
 
@@ -43,7 +47,8 @@ public class HotelStrategyNewController {
 	public void HotelStrategyNewShow() {
 		this.leftIdLabel.setText(this.hotelStaff.getId());
 		this.leftNameLabel.setText(this.hotelStaff.getUsername());
-		this.hotelName.setText(this.hotelStaff.getHotelName());
+        myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.hotelName.setText(this.hotelStaff.getHotelName());
 		this.InputStrategyName.setText(this.hotelStrategy.getStrategyInfo());
 		this.InputStrategyInfo.setText(this.hotelStrategy.getStrategyInfo());
 	}
@@ -54,20 +59,28 @@ public class HotelStrategyNewController {
 		this.hotel = hotel;
 		this.hotelStaff = hotelStaff;
 		this.hotelStrategy = new HotelStrategyVO();
-		this.HotelStrategyNewShow();
+        this.hotelStrategy.setHotelId(this.hotel.getHotelID());
+        this.hotelStrategy.setStrategyInfo("");
+        this.hotelStrategy.setStrategyName("");
+        this.service = new HotelStrategy_bl();
+        this.HotelStrategyNewShow();
 	}
 
-	public void handleSave() {
-		if (InputStrategyInfo.getText() != "" && InputStrategyName.getText() != "") {
-			this.hotelStrategy.setStrategyInfo(this.InputStrategyInfo.getText());
-			this.hotelStrategy.setId(this.InputStrategyName.getText());
-			// bl层方法
-			this.service.makeHotelStrategy(this.hotelStrategy);
-			this.mainscene.showHotelStrategyViewScene(this.hotelStaff, hotel);
-		}
+    @FXML
+    private void handleSave() {
+        if (!InputStrategyInfo.getText().equals("") && !InputStrategyName.getText().equals("")) {
+            this.hotelStrategy.setStrategyInfo(this.InputStrategyInfo.getText());
+            this.hotelStrategy.setStrategyName(this.InputStrategyName.getText());
+            // bl层方法
+            this.service.makeHotelStrategy(this.hotelStrategy);
+            this.mainscene.showHotelStrategyViewScene(this.hotelStaff, hotel);
+        } else {
+            this.StateLabel.setText("请输入完整信息！");
+        }
 	}
 
-	public void handleback() {
-		this.mainscene.showHotelStrategyViewScene(this.hotelStaff, hotel);
+    @FXML
+    private void handleback() {
+        this.mainscene.showHotelStrategyViewScene(this.hotelStaff, hotel);
 	}
 }

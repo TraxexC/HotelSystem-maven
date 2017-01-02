@@ -26,6 +26,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import main.Main;
 import other.StrategyState;
+import presentation.controller.systemstrategyController.MemberEditDialogController;
+import util.ImageUtil;
 
 public class SystemMemberStrategyModifyController {
 
@@ -82,7 +84,8 @@ public class SystemMemberStrategyModifyController {
 		// 左栏
 		leftIdLabel.setText(systemStaffVO.getId());
 		leftNameLabel.setText(systemStaffVO.getUsername());
-		SystemHolidayStrategyModifyShow(mainScene);
+        myPicture.setImage(ImageUtil.setImage(systemStaffVO.getImage()));
+        SystemHolidayStrategyModifyShow(mainScene);
 	}
 
 	public void SystemHolidayStrategyModifyShow(Main mainScene) {
@@ -110,12 +113,8 @@ public class SystemMemberStrategyModifyController {
 					.setMaxcredit(Integer.parseInt(t.getNewValue()));
 		});//setNewValue
 		memberGrade.setCellValueFactory(cellData -> cellData.getValue().getMemberGradeProperty());
-		memberGrade.setCellFactory(TextFieldTableCell.<VipVO> forTableColumn());// textField可编辑化
-		memberGrade.setOnEditCommit((CellEditEvent<VipVO, String> t) -> {
-			((VipVO) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setVipgrade(Integer.parseInt(t.getNewValue()));
-		});//setNewValue
-		discount.setCellValueFactory(cellData -> cellData.getValue().getDiscountProperty());
+
+        discount.setCellValueFactory(cellData -> cellData.getValue().getDiscountProperty());
 		discount.setCellFactory(TextFieldTableCell.<VipVO> forTableColumn());// textField可编辑化
 		discount.setOnEditCommit((CellEditEvent<VipVO, String> t) -> {
 			((VipVO) t.getTableView().getItems().get(t.getTablePosition().getRow()))
@@ -186,7 +185,33 @@ public class SystemMemberStrategyModifyController {
 		VipVO selected = memberStrategyTable.getSelectionModel().getSelectedItem();
 		if (selected != null) {
 			mainScene.showMemberEditDialog(selected);
-		} else {
+            if (MemberEditDialogController.isOkClicked()) {
+                memberStrategyTable.setEditable(true);// 可编辑
+
+                minCredit.setCellValueFactory(cellData -> cellData.getValue().getMinCreditProperty());
+                minCredit.setCellFactory(TextFieldTableCell.<VipVO>forTableColumn());// textField可编辑化
+                minCredit.setOnEditCommit((CellEditEvent<VipVO, String> t) -> {
+                    ((VipVO) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+                            .setMincredit(Integer.parseInt(t.getNewValue()));
+                });//setNewValue
+                maxCredit.setCellValueFactory(cellData -> cellData.getValue().getMaxCreditProperty());
+                maxCredit.setCellFactory(TextFieldTableCell.<VipVO>forTableColumn());// textField可编辑化
+                maxCredit.setOnEditCommit((CellEditEvent<VipVO, String> t) -> {
+                    ((VipVO) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+                            .setMaxcredit(Integer.parseInt(t.getNewValue()));
+                });//setNewValue
+                memberGrade.setCellValueFactory(cellData -> cellData.getValue().getMemberGradeProperty());
+
+                discount.setCellValueFactory(cellData -> cellData.getValue().getDiscountProperty());
+                discount.setCellFactory(TextFieldTableCell.<VipVO>forTableColumn());// textField可编辑化
+                discount.setOnEditCommit((CellEditEvent<VipVO, String> t) -> {
+                    ((VipVO) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+                            .setDiscount(Double.parseDouble(t.getNewValue()));
+                });//setNewValue
+
+                memberStrategyTable.setItems(vipVOData);
+            }
+        } else {
 			// Nothing selected.
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("警示");

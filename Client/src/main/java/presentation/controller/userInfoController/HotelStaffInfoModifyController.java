@@ -7,7 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class HotelStaffInfoModifyController {
 
@@ -16,7 +18,11 @@ public class HotelStaffInfoModifyController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button save;
+    private ImageView myPicture;
+    @FXML
+    private ImageView changedPicture;
+    @FXML
+    private Button save;
 	@FXML
 	private Button cancel;
 	@FXML
@@ -46,10 +52,13 @@ public class HotelStaffInfoModifyController {
 		this.HotelStaffInfoModifyShow();
 	}
 
-	public void HotelStaffInfoModifyShow() {
-		this.name.setText(this.hotelStaff.getUsername());
+    @FXML
+    private void HotelStaffInfoModifyShow() {
+        this.name.setText(this.hotelStaff.getUsername());
 		this.leftNameLabel.setText(this.hotelStaff.getUsername());
-		this.idLabel.setText(this.hotelStaff.getId());
+        this.myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.changedPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.idLabel.setText(this.hotelStaff.getId());
 		this.leftIdLabel.setText(this.hotelStaff.getId());
 		this.hotelName.setText(this.hotelStaff.getHotelName());
 		this.hotelId.setText(this.hotelStaff.getHotelId());
@@ -57,19 +66,26 @@ public class HotelStaffInfoModifyController {
 
 	}
 
-	public void handleSave() {
-		if (!this.name.getText().equals("")) {
+    @FXML
+    private void handleSave() {
+        if (!this.name.getText().equals("")) {
 			this.hotelStaff.setUsername(this.name.getText());
 
 		}
 		if (this.phoneTextField.getText() != "") {
-			// this.hotelStaff
-		}
+            this.hotelStaff.setPhone(this.phoneTextField.getText());
+        }
 		this.blservice.modifyHotelStaff(hotelStaff);
 		this.mainScene.showHotelStaffInfoScene(this.hotelStaff);
 	}
 
-	public void handleBacK() {
-		this.mainScene.showHotelStaffInfoScene(this.hotelStaff);
+    @FXML
+    private void handleBacK() {
+        this.mainScene.showHotelStaffInfoScene(this.hotelStaff);
 	}
+
+    @FXML
+    private void handleChange() {
+        this.hotelStaff.setImage(ImageUtil.setImagePath(changedPicture));
+    }
 }

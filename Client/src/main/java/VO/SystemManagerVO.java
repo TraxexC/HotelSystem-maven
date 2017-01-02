@@ -8,17 +8,30 @@ public class SystemManagerVO {
 	private String password;
 	private String systemmanager_Name;
 	private String systemmanager_Id;
-	
-	public SystemManagerVO() {
+    private String phone;
+    private String image;
+
+    public SystemManagerVO() {
 		super();
 		this.systemmanager_Id = IdGernerateServiceImpl.gernerateId();
-	}
+        this.image = "src/Img/default.png";
+    }
 
-	public SystemManagerVO(SystemManagerPO systemManagerPO) {
-		this.systemmanager_Id = systemManagerPO.getManagerId();
-		this.systemmanager_Name = systemManagerPO.getManagerName();
-	}
-	
+    public SystemManagerVO(SystemManagerPO systemManagerPO) {
+        this.systemmanager_Id = systemManagerPO.getManagerId();
+        this.systemmanager_Name = systemManagerPO.getManagerName();
+        this.image = systemManagerPO.getImage();
+        this.phone = systemManagerPO.getPhone();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 	public String getUserName() {
 		return systemmanager_Name;
 	}
@@ -30,6 +43,14 @@ public class SystemManagerVO {
 	public void setUsername(String name) {
 		this.systemmanager_Name = name;
 	}
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
 	public String getPassword() {
 		return this.password;

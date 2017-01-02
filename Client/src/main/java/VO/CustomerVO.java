@@ -3,8 +3,6 @@ package VO;
 import java.time.LocalDate;
 
 import PO.CustomerPO;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import other.IdGernerateServiceImpl;
@@ -21,47 +19,68 @@ public class CustomerVO {
 	private String phone;
 	private int memberGrade;
 	private memberState memberState;
-	public CustomerVO(){
-		super();
+    private String image;
+    private boolean loginState;
+
+    public CustomerVO() {
+        super();
 		this.id = IdGernerateServiceImpl.gernerateId();
-	}
-	
-	public CustomerVO(CustomerPO customerPO) {
-		super();
-		this.id = customerPO.getId();
-		this.userName = customerPO.getUserName();
-		this.phone = customerPO.getPhone();
-		this.credit = customerPO.getCredit();
-		this.birthday = customerPO.getBirthday();
-		this.memberGrade = customerPO.getMemberGrade();
-		this.memberState = customerPO.getState();
-		this.companyName = customerPO.getCompanyName();
-	}
-	
+        this.loginState = true;
+        // 为用户设定默认头像
+        this.image = "src/Img/default.png";
+    }
+
+    public CustomerVO(CustomerPO customerPO) {
+        super();
+        this.id = customerPO.getId();
+        this.userName = customerPO.getUserName();
+        this.phone = customerPO.getPhone();
+        this.credit = customerPO.getCredit();
+        this.birthday = customerPO.getBirthday();
+        this.memberGrade = customerPO.getMemberGrade();
+        this.memberState = customerPO.getState();
+        this.companyName = customerPO.getCompanyName();
+        this.image = customerPO.getImage();
+        this.loginState = customerPO.isOnline();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 	public void setMemberState(memberState memberState) {
 		this.memberState = memberState;
 	}
+
 	public String getUsername() {
 		return userName;
 	}
+
 	public void setUsername(String userName) {
 		this.userName = userName;
 	}
+
 	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(String phone) {
+
+    public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getId() {
+
+    public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public int getCredit() {
+
+    public int getCredit() {
 		return credit;
 	}
 
@@ -104,17 +123,29 @@ public class CustomerVO {
 	public String getPassword() {
 		return this.password;
 	}
-	public StringProperty getIDstringProperty(){
-		return new SimpleStringProperty(id);
+
+    public StringProperty getIDstringProperty() {
+        return new SimpleStringProperty(id);
 	}
-	
-	public StringProperty getUserNamePriperty(){
-		return new SimpleStringProperty(userName);
+
+    public StringProperty getUserNamePriperty() {
+        return new SimpleStringProperty(userName);
 	}
-	public StringProperty getUserTypePriperty(){
-		return new SimpleStringProperty("客户");
+
+    public StringProperty getUserTypePriperty() {
+        return new SimpleStringProperty("客户");
 	}
-	public StringProperty getCreditProperty(){
-		return new SimpleStringProperty(String.valueOf(credit));
+
+    public StringProperty getCreditProperty() {
+        return new SimpleStringProperty(String.valueOf(credit));
 	}
+
+    public boolean isOnline() {
+        // TODO Auto-generated method stub
+        return this.loginState;
+    }
+
+    public void changeLoginState(boolean b) {
+        this.loginState = b;
+    }
 }

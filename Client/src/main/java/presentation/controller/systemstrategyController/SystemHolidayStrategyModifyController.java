@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import main.Main;
 import other.StrategyState;
+import util.ImageUtil;
 
 public class SystemHolidayStrategyModifyController {
 
@@ -70,7 +71,8 @@ public class SystemHolidayStrategyModifyController {
 		// 左栏
 		leftIdLabel.setText(systemStaffVO.getId());
 		leftNameLabel.setText(systemStaffVO.getUsername());
-		SystemHolidayStrategyModifyShow(mainScene);
+        myPicture.setImage(ImageUtil.setImage(systemStaffVO.getImage()));
+        SystemHolidayStrategyModifyShow(mainScene);
 	}
 
 	public void SystemHolidayStrategyModifyShow(Main mainScene) {
@@ -104,8 +106,8 @@ public class SystemHolidayStrategyModifyController {
 		endDate.setDayCellFactory(dayCellFactory);
 		endDate.setValue(startDate.getValue().plusDays(1));
 		// 设置时间选择器结束
-		discountForCustomer.setText(String.valueOf(systemStrategyVO.getDiscount() * 10));
-		StrategyState strategyState = systemStrategyVO.getStrategyState();
+        discountForCustomer.setText(String.valueOf(systemStrategyVO.getDiscount()));
+        StrategyState strategyState = systemStrategyVO.getStrategyState();
 		if (strategyState == StrategyState.open) {
 			open.setSelected(true);
 			close.setSelected(false);

@@ -13,7 +13,8 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="143.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView fx:id="myPicture" fitHeight="160.0" fitWidth="160.0" layoutX="28.0" layoutY="14.0"
+                              pickOnBounds="true" preserveRatio="true"/>
                   <Label layoutX="33.0" layoutY="180.0" text="ID" />
                   <Label fx:id="leftIdLabel" layoutX="95.0" layoutY="180.0" text="Label" />
                   <Label layoutX="33.0" layoutY="210.0" text="姓名" />
@@ -32,49 +33,50 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="75.0" layoutY="80.0" text="ID">
+                   <Label layoutX="92.0" layoutY="329.0" text="ID">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="75.0" layoutY="110.0" text="姓名">
+                   <Label layoutX="92.0" layoutY="359.0" text="姓名">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="75.0" layoutY="140.0" text="身份">
+                   <Label layoutX="92.0" layoutY="389.0" text="身份">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="idLabel" layoutX="189.0" layoutY="80.0" text="Label">
+                   <Label fx:id="idLabel" layoutX="206.0" layoutY="329.0" text="Label">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="nameLabel" layoutX="189.0" layoutY="110.0" text="Label">
+                   <Label fx:id="nameLabel" layoutX="206.0" layoutY="359.0" text="Label">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="189.0" layoutY="140.0" text="网站管理人员">
+                   <Label layoutX="206.0" layoutY="389.0" text="网站管理人员">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="75.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label layoutX="143.0" layoutY="506.0" text="当前头像">
+                   <ImageView fx:id="nowPic" fitHeight="200.0" fitWidth="200.0" layoutX="90.0" layoutY="63.0"
+                              pickOnBounds="true" preserveRatio="true"/>
+                   <Label layoutX="158.0" layoutY="279.0" text="我的头像">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
                   <Label layoutX="10.0" layoutY="563.0" prefHeight="28.0" prefWidth="506.0" text="状态栏" />
-                  <Label layoutX="75.0" layoutY="170.0" text="联系方式">
+                   <Label layoutX="92.0" layoutY="419.0" text="联系方式">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="phone" layoutX="189.0" layoutY="170.0" text="Label">
+                   <Label fx:id="phone" layoutX="206.0" layoutY="419.0" text="Label">
                      <font>
                         <Font size="16.0" />
                      </font>

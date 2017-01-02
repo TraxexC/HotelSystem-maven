@@ -2,13 +2,12 @@ package presentation.controller.userManagementController;
 
 import VO.CustomerVO;
 import VO.SystemManagerVO;
-import blservice.UserManagement_blservice;
-import blservice.impl.UserManagement_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerCustomerInfoViewController {
 
@@ -17,7 +16,9 @@ public class SystemManagerCustomerInfoViewController {
 	@FXML
 	private Button modifyState;//更改用户状态（冻结/解冻）
 	@FXML
-	private Button back;
+    private ImageView leftMenuImage;
+    @FXML
+    private Button back;
 	@FXML
 	private Label idLabel;
 	@FXML
@@ -37,18 +38,12 @@ public class SystemManagerCustomerInfoViewController {
 	@FXML
 	private Label leftIdLabel;
 	@FXML
-	private ImageView leftImage;
-	@FXML
 	private ImageView image;
 	
 	private Main mainsence;
 	private CustomerVO customerVO;
 	private SystemManagerVO systemManagerVO;
-	private UserManagement_blservice userManagement_blservice;
 
-	public SystemManagerCustomerInfoViewController() {
-		userManagement_blservice = new UserManagement_bl();
-	}
 
 	public void initialize(Main mainScene,SystemManagerVO systemManagerVO,CustomerVO customerVO) {
 		this.mainsence = mainScene;
@@ -57,18 +52,20 @@ public class SystemManagerCustomerInfoViewController {
 		//left
 		leftIdLabel.setText(this.systemManagerVO.getId());
 		leftNameLabel.setText(this.systemManagerVO.getUserName());
-		SystemManagerCustomerInfoViewShow(this.mainsence);
+        leftMenuImage.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
+
+        SystemManagerCustomerInfoViewShow(this.mainsence);
 	}
 	
 	public void SystemManagerCustomerInfoViewShow(Main mainScene){
 		idLabel.setText(customerVO.getId());
 		nameLabel.setText(customerVO.getUsername());
 		memberLabel.setText(String.valueOf(customerVO.getMemberGrade()));
-		birthdayLabel.setText(util.DateUtil.format(customerVO.getBirthday()));//TODO
-		companyLabel.setText(customerVO.getCompanyName());
+        birthdayLabel.setText(util.DateUtil.format(customerVO.getBirthday()));
+        companyLabel.setText(customerVO.getCompanyName());
 		creditLabel.setText(String.valueOf(customerVO.getCredit()));
-		image.setImage(null);
-	}
+        image.setImage(ImageUtil.setImage(this.customerVO.getImage()));
+    }
 	
 	@FXML//
 	private void handleModify(){

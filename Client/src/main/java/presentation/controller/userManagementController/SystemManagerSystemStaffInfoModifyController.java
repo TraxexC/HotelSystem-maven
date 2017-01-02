@@ -8,13 +8,14 @@ import blservice.UserInfo_blservice;
 import blservice.impl.UserInfo_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class SystemManagerSystemStaffInfoModifyController {
 
@@ -31,13 +32,15 @@ public class SystemManagerSystemStaffInfoModifyController {
 	@FXML
 	private TextField nameField;
 	@FXML
-	private Label businessDistrictLabel;
-	@FXML
+    private TextField phoneNum;
+    @FXML
 	private Button changePicture;
 	@FXML
 	private ImageView myPicture;
-	
-	private Main mainScene;
+    @FXML
+    private ImageView changedPic;
+
+    private Main mainScene;
 	private UserInfo_blservice blservice;
 	private SystemStaffVO systemStaffVO;
 	private SystemManagerVO systemManagerVO;
@@ -52,23 +55,27 @@ public class SystemManagerSystemStaffInfoModifyController {
 		//left
 		leftIdLabel.setText(systemManagerVO.getId());
 		leftNameLabel.setText(systemManagerVO.getUserName());
-		SystemManagerSystemStaffInfoModifyShow(mainScene);
+        myPicture.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
+        changedPic.setImage(ImageUtil.setImage(this.systemStaffVO.getImage()));
+        SystemManagerSystemStaffInfoModifyShow(mainScene);
 	}
 	
 	public void SystemManagerSystemStaffInfoModifyShow(Main mainScene) {
 		idLabel.setText(systemStaffVO.getId());
 		nameField.setText(systemStaffVO.getUsername());
-		businessDistrictLabel.setText(systemStaffVO.getBusinessDistrict());
-		
-	}
+        phoneNum.setText(systemStaffVO.getPhone());
+
+    }
 	@FXML
 	private void handleSave(){
 		String idString = idLabel.getText();
 		String name = nameField.getText();
-		String district = businessDistrictLabel.getText();
-		
-		systemStaffVO = new SystemStaffVO(idString, name,district);
-		boolean isModify = blservice.modifySystemStaff(systemStaffVO);
+        String phone = phoneNum.getText();
+
+        systemStaffVO.setId(idString);
+        systemStaffVO.setPhone(phone);
+        systemStaffVO.setUsername(name);
+        boolean isModify = blservice.modifySystemStaff(systemStaffVO);
 		
 
 		if (isModify) {
@@ -90,7 +97,13 @@ public class SystemManagerSystemStaffInfoModifyController {
 			alert.showAndWait();
 		}
 	}
-	@FXML
+
+    @FXML
+    private void handleChange() {
+        this.systemStaffVO.setImage(ImageUtil.setImagePath(changedPic));
+    }
+
+    @FXML
 	private void handleBack(){
 		mainScene.showSystemManagerSystemStaffInfoViewScene(systemManagerVO, systemStaffVO);
 	}

@@ -6,6 +6,8 @@ import VO.HotelStaffVO;
 import VO.OrderVO;
 import blservice.Hotel_blservice;
 import blservice.Order_blservice;
+import blservice.impl.Hotel_bl;
+import blservice.impl.Order_bl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import util.ImageUtil;
 
 public class HotelStaffMainController {
 
@@ -45,6 +48,8 @@ public class HotelStaffMainController {
 	private TableColumn<OrderVO, String> arriveTime;// 简介
 	@FXML
 	private TableColumn<OrderVO, String> orderDuration;// 订单时长
+    @FXML
+    private TableColumn<OrderVO, String> orderState;// 订单状态
 
 	private Main mainScene;
 	private HotelStaffVO hotelStaff;
@@ -58,50 +63,60 @@ public class HotelStaffMainController {
 	}
 
 	public void initialize(Main main, HotelStaffVO hotelStaff) {
-		// TODO Auto-generated method stub
 		this.mainScene = main;
 		this.hotelStaff = hotelStaff;
-		this.orderList = this.orderService.getOrderOfToday(this.hotelStaff.getHotelId());
-		int count = 0;
+        this.orderService = new Order_bl();
+        this.hotelService = new Hotel_bl();
+        this.orderList = this.orderService.getOrderOfToday(this.hotelStaff.getHotelId());
 
-		while (count < this.orderList.size()) {
-			this.orderData.add(this.orderList.get(count));
-			count++;
-		}
-		this.customerId.setCellValueFactory(cellData -> cellData.getValue().getCustomerIDProperty());
-		this.roomInfo.setCellValueFactory(cellData -> cellData.getValue().getRoomInfoProperty());
-		this.arriveTime.setCellValueFactory(cellData -> cellData.getValue().getEntryTimeProperty());
-		this.orderDuration.setCellValueFactory(cellData -> cellData.getValue().getLastTimeProperty());
+        if (this.orderList != null) {
+            int count = 0;
 
-		this.HotelStaffMainShow();
+            while (count < this.orderList.size()) {
+                this.orderData.add(this.orderList.get(count));
+                count++;
+            }
+            this.customerId.setCellValueFactory(cellData -> cellData.getValue().getCustomerIDProperty());
+            this.roomInfo.setCellValueFactory(cellData -> cellData.getValue().getRoomInfoProperty());
+            this.arriveTime.setCellValueFactory(cellData -> cellData.getValue().getEntryTimeProperty());
+            this.orderDuration.setCellValueFactory(cellData -> cellData.getValue().getLastTimeProperty());
+            this.orderState.setCellValueFactory(cellData -> cellData.getValue().getOrderStateProperty());
+        }
+        this.HotelStaffMainShow();
 	}
 
 	public void HotelStaffMainShow() {
 		this.leftIdLabel.setText(this.hotelStaff.getId());
-		this.leftNameLabel.setText(this.hotelStaff.getUsername());
+        this.myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.leftNameLabel.setText(this.hotelStaff.getUsername());
 		this.hotelName.setText(this.hotelStaff.getHotelName());
-		// this.orderTable.setItems(orderData);
+        this.orderTable.setItems(orderData);
+    }
+
+    @FXML
+    private void handleViewOrder() {
+        this.mainScene.showHotelStaffOrderViewScene(hotelStaff);
 	}
 
-	public void handleViewOrder() {
-		this.mainScene.showHotelStaffOrderViewScene(hotelStaff);
-	}
-
-	public void handleMaintainHotelInfo() {
-		this.mainScene.showHotelStaffHotelInfoViewScene(hotelStaff,
+    @FXML
+    private void handleMaintainHotelInfo() {
+        this.mainScene.showHotelStaffHotelInfoViewScene(hotelStaff,
 				this.hotelService.getHotelInfo(this.hotelStaff.getHotelId()));
 	}
 
-	public void handleMakeStrategy() {
-		this.mainScene.showHotelStrategyViewScene(hotelStaff,
+    @FXML
+    private void handleMakeStrategy() {
+        this.mainScene.showHotelStrategyViewScene(hotelStaff,
 				this.hotelService.getHotelInfo(this.hotelStaff.getHotelId()));
 	}
 
-	public void handleMaintainPersonalInfo() {
-		this.mainScene.showHotelStaffInfoScene(hotelStaff);
+    @FXML
+    private void handleMaintainPersonalInfo() {
+        this.mainScene.showHotelStaffInfoScene(hotelStaff);
 	}
 
-	public void handleExit() {
-		this.mainScene.showLoginScene();
+    @FXML
+    private void handleExit() {
+        this.mainScene.showLoginScene();
 	}
 }

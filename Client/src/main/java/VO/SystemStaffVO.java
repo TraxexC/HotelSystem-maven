@@ -1,35 +1,41 @@
 package VO;
 
 import PO.SystemStaffPO;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import other.IdGernerateServiceImpl;
 
 public class SystemStaffVO {
 
 	private String id;
 	private String username;
-	private String businessDistrict;
 	private String password;
 	private String phone;
+    private String image;
 
-	public SystemStaffVO() {
+
+    public SystemStaffVO() {
 		super();
 		this.id = IdGernerateServiceImpl.gernerateId();
-	}
+        this.image = "src/Img/default.png";
+    }
 
 	public SystemStaffVO(SystemStaffPO userPO) {
 		super();
 		this.id = userPO.getId();
 		this.username = userPO.getStaffName();
-		this.businessDistrict = userPO.getBusinessDistrict();
 		this.phone = userPO.getPhone();
-	}
+        this.image = userPO.getImage();
+    }
 
-	public SystemStaffVO(String id,String name, String district){
-		this.id = id;
-		this.username = name;
-		this.businessDistrict = district;
-	}
-	
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 	public String getId() {
 		return id;
 	}
@@ -46,13 +52,6 @@ public class SystemStaffVO {
 		this.username = username;
 	}
 
-	public String getBusinessDistrict() {
-		return businessDistrict;
-	}
-
-	public void setBusinessDistrict(String businessDistrict) {
-		this.businessDistrict = businessDistrict;
-	}
 	public String getPassword() {
 		return password;
 	}
@@ -66,5 +65,24 @@ public class SystemStaffVO {
 	public void setPhone(String phone){
 		this.phone = phone;
 	}
+
+    /**
+     * UI
+     */
+    public StringProperty getSystemStaffIDProperty() {
+        return new SimpleStringProperty(this.id);
+    }
+
+    public StringProperty getSystemSatffNameProperty() {
+        return new SimpleStringProperty(this.username);
+    }
+
+    public StringProperty getSystemStaffIdentity() {
+        return new SimpleStringProperty("网站营销人员");
+    }
+
+    public StringProperty getSystemStaffPhone() {
+        return new SimpleStringProperty(phone);
+    }
 
 }

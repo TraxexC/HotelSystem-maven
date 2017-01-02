@@ -13,7 +13,8 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="143.0">
                <children>
-                  <ImageView fx:id="leftMenuImage" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView fx:id="leftMenuImage" fitHeight="160.0" fitWidth="160.0" layoutX="28.0" layoutY="14.0"
+                              pickOnBounds="true" preserveRatio="true"/>
                   <Label layoutX="33.0" layoutY="180.0" text="ID" />
                   <Label fx:id="leftIDLabel" layoutX="95.0" layoutY="180.0" text="Label" />
                   <Label layoutX="33.0" layoutY="210.0" text="姓名" />
@@ -32,7 +33,8 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="563.0" prefHeight="28.0" prefWidth="506.0" text="状态栏" />
+                   <Label fx:id="StateLabel" layoutX="10.0" layoutY="563.0" prefHeight="28.0" prefWidth="506.0"
+                          text="状态栏"/>
                   <TableView fx:id="adviceFeedBackTable" layoutX="29.0" layoutY="72.0" prefHeight="454.0" prefWidth="468.0">
                     <columns>
                       <TableColumn fx:id="sendTime" prefWidth="75.0" text="发送时间" />

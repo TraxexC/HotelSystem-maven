@@ -13,10 +13,14 @@ public class HotelStaffVO {
 	private String hotelName;
     private String phone;
 	private String password;
+    private String image;
+
+
 
 	public HotelStaffVO() {
 	   id = IdGernerateServiceImpl.gernerateId();
-	}
+        this.image = "src/Img/default.png";
+    }
     
 	public HotelStaffVO(HotelStaffPO userPO) {
 		super();
@@ -25,14 +29,18 @@ public class HotelStaffVO {
 		this.hotelId = userPO.getHotelId();
 		this.phone = userPO.getPhone();
 		this.hotelName = userPO.getHotelName();
-	}
-	
-	public HotelStaffVO(String id,String name,String hotelID,String hotelName){
-		this.id = id;
-		this.username = name;
-		this.hotelId = hotelID;
-		this.hotelName = hotelName;
-	}
+        this.image = userPO.getImage();
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 	public String getPhone(){
 		return phone;

@@ -13,7 +13,8 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="143.0">
                <children>
-                  <ImageView fx:id="myPicture" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView fx:id="myPicture" fitHeight="160.0" fitWidth="160.0" layoutX="30.0" layoutY="14.0"
+                              pickOnBounds="true" preserveRatio="true"/>
                   <Label layoutX="33.0" layoutY="180.0" text="ID" />
                   <Label fx:id="leftIdLabel" layoutX="95.0" layoutY="180.0" text="Label" />
                   <Label layoutX="33.0" layoutY="210.0" text="姓名" />
@@ -21,12 +22,13 @@
                   <Label layoutX="33.0" layoutY="240.0" text="身份" />
                   <Label layoutX="95.0" layoutY="240.0" text="网站管理人员" />
                   <Button fx:id="save" layoutX="10.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="39.0" prefWidth="200.0" text="保存并自动分配酒店工作人员" />
-                  <Button fx:id="back" layoutX="11.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="39.0" prefWidth="200.0" text="取消并返回" />
+                   <Button fx:id="back" layoutX="11.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleBack"
+                           prefHeight="39.0" prefWidth="200.0" text="返回"/>
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Label layoutX="183.0" layoutY="33.0" text="新酒店注册">
+                   <Label layoutX="203.0" layoutY="27.0" text="新酒店注册">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -37,18 +39,32 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="57.0" layoutY="124.0" text="酒店商圈">
+                   <TextField fx:id="hotelName" layoutX="188.0" layoutY="87.0" prefHeight="23.0" prefWidth="243.0"/>
+                   <ChoiceBox fx:id="city" layoutX="117.0" layoutY="169.0" prefHeight="23.0" prefWidth="105.0"/>
+                   <ChoiceBox fx:id="district" layoutX="326.0" layoutY="169.0" prefHeight="23.0" prefWidth="105.0"/>
+                   <Label layoutX="57.0" layoutY="169.0" prefHeight="28.0" prefWidth="66.0" text="城市"/>
+                   <Label layoutX="261.0" layoutY="167.0" prefHeight="28.0" prefWidth="66.0" text="商圈"/>
+                   <Button fx:id="addPic" layoutX="200.0" layoutY="520.0" mnemonicParsing="false"
+                           onAction="#handleAddPic" prefHeight="23.0" prefWidth="105.0" text="添加酒店图片"/>
+                   <Label layoutX="57.0" layoutY="128.0" text="酒店工作人员姓名">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="hotelName" layoutX="135.0" layoutY="87.0" prefHeight="23.0" prefWidth="296.0" />
-                  <MenuButton fx:id="district" layoutX="135.0" layoutY="122.0" mnemonicParsing="false" text="MenuButton">
-                    <items>
-                      <MenuItem fx:id="district1" mnemonicParsing="false" onAction="#handleDistrict1" text="新街口" />
-                      <MenuItem fx:id="district2" mnemonicParsing="false" onAction="#handleDistrict2" text="仙林中心" />
-                    </items>
-                  </MenuButton>
+                   <TextField fx:id="hotelStaffName" layoutX="189.0" layoutY="126.0" prefHeight="23.0"
+                              prefWidth="243.0"/>
+                   <ImageView fx:id="img3" fitHeight="140.0" fitWidth="140.0" layoutX="129.0" layoutY="362.0"
+                              pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="252.0"
+                              AnchorPane.topAnchor="362.0"/>
+                   <ImageView fx:id="img1" fitHeight="140.0" fitWidth="140.0" layoutX="130.0" layoutY="212.0"
+                              pickOnBounds="true" smooth="false" AnchorPane.bottomAnchor="246.0"
+                              AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="251.0"
+                              AnchorPane.topAnchor="212.0"/>
+                   <ImageView fx:id="img2" fitHeight="140.0" fitWidth="140.0" layoutX="291.0" layoutY="222.0"
+                              pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="236.0"
+                              AnchorPane.leftAnchor="291.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="212.0"/>
+                   <ImageView fx:id="img4" fitHeight="140.0" fitWidth="140.0" layoutX="291.0" layoutY="362.0"
+                              pickOnBounds="true" preserveRatio="true"/>
                </children>
             </AnchorPane>
          </items>

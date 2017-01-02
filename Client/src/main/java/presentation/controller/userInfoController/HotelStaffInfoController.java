@@ -1,12 +1,12 @@
 package presentation.controller.userInfoController;
 
 import VO.HotelStaffVO;
-import blservice.UserInfo_blservice;
-import blservice.impl.UserInfo_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class HotelStaffInfoController {
 
@@ -15,7 +15,9 @@ public class HotelStaffInfoController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button modifyInfo;
+    private ImageView myPicture;
+    @FXML
+    private Button modifyInfo;
 	@FXML
 	private Button modifyPassword;
 	@FXML
@@ -30,14 +32,11 @@ public class HotelStaffInfoController {
 	private Label hotelName;
 	@FXML
 	private Label phone;
+    @FXML
+    private ImageView nowPic;
 
 	private Main mainScene;
-	private UserInfo_blservice blservice;
 	private HotelStaffVO hotelStaff;
-
-	public HotelStaffInfoController() {
-		blservice = new UserInfo_bl();
-	}
 
 	public void initialize(Main mainScene, HotelStaffVO hotelStaff) {
 		this.mainScene = mainScene;
@@ -45,25 +44,31 @@ public class HotelStaffInfoController {
 		this.HotelStaffInfoShow();
 	}
 
-	public void HotelStaffInfoShow() {
-		this.nameLabel.setText(this.hotelStaff.getUsername());
+    @FXML
+    private void HotelStaffInfoShow() {
+        this.nameLabel.setText(this.hotelStaff.getUsername());
 		this.leftNameLabel.setText(this.hotelStaff.getUsername());
-		this.idLabel.setText(this.hotelStaff.getId());
+        this.myPicture.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.nowPic.setImage(ImageUtil.setImage(this.hotelStaff.getImage()));
+        this.idLabel.setText(this.hotelStaff.getId());
 		this.leftIdLabel.setText(this.hotelStaff.getId());
 		this.hotelName.setText(this.hotelStaff.getHotelName());
 		this.hotelId.setText(this.hotelStaff.getHotelId());
-		// this.phone.setText(value);
+        this.phone.setText(this.hotelStaff.getPhone());
+    }
+
+    @FXML
+    private void handleInfoModify() {
+        this.mainScene.showHotelStaffInfoModifyScene(hotelStaff);
 	}
 
-	public void handleInfoModify() {
-		this.mainScene.showHotelStaffInfoModifyScene(hotelStaff);
+    @FXML
+    private void handlePasswordModify() {
+        this.mainScene.showHotelStaffPasswordModifyScene(hotelStaff);
 	}
 
-	public void handlePasswordModify() {
-		this.mainScene.showHotelStaffPasswordModifyScene(hotelStaff);
-	}
-
-	public void handleBack() {
-		this.mainScene.showHotelStaffMainScene(hotelStaff);
+    @FXML
+    private void handleBack() {
+        this.mainScene.showHotelStaffMainScene(hotelStaff);
 	}
 }

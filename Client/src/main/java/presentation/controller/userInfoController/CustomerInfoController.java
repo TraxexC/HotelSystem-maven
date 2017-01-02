@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import main.Main;
 import other.memberState;
 import util.DateUtil;
+import util.ImageUtil;
 
 public class CustomerInfoController {
 	@FXML
@@ -21,7 +22,9 @@ public class CustomerInfoController {
 	@FXML
 	private Button backTOSuper;
 	@FXML
-	private Button back;
+    private Button creditview;
+    @FXML
+    private Button back;
 	@FXML
 	private Label idLabel;
 	@FXML
@@ -62,11 +65,25 @@ public class CustomerInfoController {
 		this.CustomerinfoShow(this.mainsence);
 	}
 
-	public void CustomerinfoShow(Main mainScene) {
-		this.idLabel.setText(Customer.getId());
-		this.nameLabel.setText(Customer.getUsername());
-		this.birthdayLabel.setText(DateUtil.format(Customer.getBirthday()));
-		this.companyLabel.setText(Customer.getCompanyName());
+    @FXML
+    private void CustomerinfoShow(Main mainScene) {
+        this.idLabel.setText(Customer.getId());
+        this.image.setImage(ImageUtil.setImage(Customer.getImage()));
+        if (!this.Customer.getUsername().equals("")) {
+            this.nameLabel.setText(Customer.getUsername());
+        }
+
+        if (this.Customer.getBirthday() != null) {
+            this.birthdayLabel.setText(DateUtil.format(Customer.getBirthday()));
+        } else {
+            this.birthdayLabel.setText("暂缺");
+        }
+        if (this.Customer.getCompanyName() != null && !this.Customer.getCompanyName().equals("")) {
+            this.companyLabel.setText(Customer.getCompanyName());
+        } else {
+            this.companyLabel.setText("暂缺");
+        }
+
 		this.creditLabel.setText(String.valueOf(Customer.getCredit()));
 
 		if (Customer.getMemberState() == memberState.BUSINESS_MEMBER) {
@@ -79,24 +96,35 @@ public class CustomerInfoController {
 
 		this.leftMenuIdLabel.setText(Customer.getId());
 		this.leftMenuNameLabel.setText(Customer.getUsername());
-		
-		this.phoneLabel.setText(this.Customer.getPhone());
-		// this.leftMenuImage.setImage(new Image("D:/我的文档/Pictures/as"));
+        this.leftMenuImage.setImage(ImageUtil.setImage(Customer.getImage()));
+        this.phoneLabel.setText(this.Customer.getPhone());
 	}
 
-	public void handleCustomerInfoModify() {
-		this.mainsence.showCustomerModifyScene(this.Customer);
+    @FXML
+    private void handleCustomerInfoModify() {
+        this.mainsence.showCustomerModifyScene(this.Customer);
 	}
 
-	public void handleCustomerPasswordModify() {
-		this.mainsence.showCustomerPasswordModifyScene(this.Customer);
+    @FXML
+    private void handleCustomerPasswordModify() {
+        this.mainsence.showCustomerPasswordModifyScene(this.Customer);
 	}
 
-	public void handleCustomerMemberModify() {
-		this.mainsence.showCustomerMemberModifyScene(this.Customer);
+    @FXML
+    private void handleCustomerMemberModify() {
+        this.mainsence.showCustomerMemberModifyScene(this.Customer);
 	}
 
-	public void handleBack() {
-		this.mainsence.showCustomerMainScene(Customer);
+    /**
+     * 查看用户的信用记录
+     */
+    @FXML
+    private void handleCreditView() {
+        this.mainsence.showCustomerCreditView(Customer);
+    }
+
+    @FXML
+    private void handleBack() {
+        this.mainsence.showCustomerMainScene(Customer);
 	}
 }

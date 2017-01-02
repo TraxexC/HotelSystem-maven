@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import main.Main;
+import util.ImageUtil;
 
 public class CustomerOrderViewController {
 
@@ -76,22 +77,29 @@ public class CustomerOrderViewController {
 	public void CustomerOrderViewShow() {
 		this.leftIdLabel.setText(customer.getId());
 		this.leftNameLabel.setText(customer.getUsername());
-	}
+        this.myPicture.setImage(ImageUtil.setImage(customer.getImage()));
+    }
 
 	// 订单详细信息按钮监听方法
-	public void handleOrderInfo() {
-		int focusOn = this.orderTable.getSelectionModel().getFocusedIndex();
-		this.mainScene.showCustomerOrderInfoViewScene(customer, this.orderList.get(focusOn));
-	}
+    @FXML
+    private void handleOrderInfo() {
+        OrderVO focusOn = this.orderTable.getSelectionModel().getSelectedItem();
+        if (focusOn != null)
+            this.mainScene.showCustomerOrderInfoViewScene(customer, focusOn);
+        else
+            this.StateField.setText("请选择要查看的订单！");
+    }
 
 	// 返回按钮监听方法
-	public void handleback() {
-		this.mainScene.showCustomerMainScene(customer);
+    @FXML
+    private void handleback() {
+        this.mainScene.showCustomerMainScene(customer);
 	}
 
 	// 搜索按钮监听方法
-	public void handleSearch() {
-		ArrayList<OrderVO> searchOrderList = this.service.getOrderFromInput(this.searchInput.getText());
+    @FXML
+    private void handleSearch() {
+        ArrayList<OrderVO> searchOrderList = this.service.getOrderFromInput(this.searchInput.getText());
 		if (searchOrderList != null && searchOrderList.size() > 0) {
 			this.refreshTable();
 		} else {
@@ -112,8 +120,7 @@ public class CustomerOrderViewController {
 		this.timeOfArrive.setCellValueFactory(cellData -> cellData.getValue().getEntryTimeProperty());
 		this.payment.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty());
 		this.nameOfHotel.setCellValueFactory(cellData -> cellData.getValue().getHotelNameProperty());
-		// this.stateOfOrder.setCellValueFactory(cellData ->
-		// cellData.getValue().getOrderStateProperty());
-		this.orderTable.setItems(orderData);
+        this.stateOfOrder.setCellValueFactory(cellData -> cellData.getValue().getOrderStateProperty());
+        this.orderTable.setItems(orderData);
 	}
 }

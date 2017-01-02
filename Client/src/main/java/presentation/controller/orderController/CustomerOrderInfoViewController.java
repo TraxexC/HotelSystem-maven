@@ -1,10 +1,17 @@
 package presentation.controller.orderController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import VO.CustomerVO;
+import VO.LogofUserVO;
 import VO.OrderVO;
 import blservice.Hotel_blservice;
+import blservice.LogOfUser_blServce;
 import blservice.Order_blservice;
 import blservice.impl.Hotel_bl;
+import blservice.impl.LogOfUser_blServceImpl;
 import blservice.impl.Order_bl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +20,7 @@ import javafx.scene.image.ImageView;
 import main.Main;
 import other.OrderState;
 import other.RoomType;
+import util.ImageUtil;
 
 public class CustomerOrderInfoViewController {
 
@@ -46,6 +54,8 @@ public class CustomerOrderInfoViewController {
 	private Label actualPayment;
 	@FXML
 	private Label stateOfOrder;
+    @FXML
+    private Label StateLabel;
 
 	private Main mainScene;
 	private CustomerVO customer;
@@ -53,6 +63,7 @@ public class CustomerOrderInfoViewController {
 
 	private Order_blservice OrderService;
 	private Hotel_blservice hotelService;
+    private LogOfUser_blServce logService;
 
 	public CustomerOrderInfoViewController() {
 
@@ -65,13 +76,15 @@ public class CustomerOrderInfoViewController {
 		this.order = orderVO;
 		this.OrderService = new Order_bl();
 		this.hotelService = new Hotel_bl();
-		this.CustomerOrderInfoViewShow();
+        this.logService = new LogOfUser_blServceImpl();
+        this.CustomerOrderInfoViewShow();
 	}
 
 	public void CustomerOrderInfoViewShow() {
 		this.leftIdLabel.setText(customer.getId());
 		this.leftNameLabel.setText(customer.getUsername());
-		this.IdLabel.setText(this.customer.getId());
+        this.myPicture.setImage(ImageUtil.setImage(customer.getImage()));
+        this.IdLabel.setText(this.customer.getId());
 		this.nameLabel.setText(customer.getUsername());
 		this.nameOfHotel.setText(this.hotelService.getHotelInfo(this.order.getHotelID()).getHotelName());
 		// 确定是何种房间类型
@@ -92,8 +105,9 @@ public class CustomerOrderInfoViewController {
 	}
 
 	// 返回方法
-	public void handleback() {
-		this.mainScene.showCustomerOrderViewScene(customer);
+    @FXML
+    private void handleback() {
+        this.mainScene.showCustomerOrderViewScene(customer);
 	}
 
 	// 评价或撤销按钮的控制方法
@@ -108,15 +122,21 @@ public class CustomerOrderInfoViewController {
 		} else if (this.order.getOrderState().equals(OrderState.ABNOMAL)) {
 			this.stateOfOrder.setText("异常");
 			this.recallOrAssessment.setText("撤销订单");
-			this.recallOrAssessment.setDisable(false);
-		} else if (this.order.getOrderState().equals(OrderState.ASSESSED)) {
+            this.recallOrAssessment.setDisable(true);
+        } else if (this.order.getOrderState().equals(OrderState.REVACATION)) {
+            this.stateOfOrder.setText("已撤销");
+            this.recallOrAssessment.setText("撤销订单");
+            this.recallOrAssessment.setDisable(true);
+        } else if (this.order.getOrderState().equals(OrderState.ASSESSED)) {
 			this.stateOfOrder.setText("已评价");
-			this.recallOrAssessment.setText("修改评价");
-		}
+            this.recallOrAssessment.setText("查看评价");
+            this.recallOrAssessment.setDisable(false);
+        }
 	}
 
 	// 评价或撤销按钮的监听方法
-	public void handleRecallOrAssessment() {
+    @FXML
+    private void handleRecallOrAssessment() {
 
 		if (this.order.getOrderState().equals(OrderState.FINISHED)) {
 			this.stateOfOrder.setText("已执行");
@@ -124,18 +144,34 @@ public class CustomerOrderInfoViewController {
 			this.mainScene.showHotelAssessmentScene(customer, this.hotelService.getHotelInfo(this.order.getHotelID()),
 					this.order);
 		} else if (this.order.getOrderState().equals(OrderState.UNFINISHED)) {
-			this.order.setOrderState(OrderState.ABNOMAL);
-			this.stateOfOrder.setText("异常");
-			this.recallOrAssessment.setDisable(false);
+            if (!this.order.getEntryTime().minusDays(1).isBefore(LocalDate.now())) {
+                this.order.setOrderState(OrderState.REVACATION);
+                this.stateOfOrder.setText("已撤销");
+                this.recallOrAssessment.setDisable(true);
+                this.StateLabel.setText("已完成当前订单的撤销，信用值已扣除！");
 
-			// bl层方法
-			this.OrderService.changeState(this.order);
+                // 添加信用记录
+                LogofUserVO logofUserVO = new LogofUserVO();
+                logofUserVO.setChange((int) (-order.getPrice() * 0.5));
+                logofUserVO.setContent("撤销订单" + this.order.getOrderID());
+                logofUserVO.setDateTime(LocalDateTime.now());
+                logofUserVO.setUserid(customer.getId());
+                this.logService.addLogOfUser(logofUserVO);
 
-		}
+                // bl层方法
+                this.OrderService.changeState(this.order);
+            } else {
+                this.StateLabel.setText("无法撤销即将执行的订单！");
+            }
+        } else if (this.order.getOrderState().equals(OrderState.ASSESSED)) {
+            this.mainScene.showHotelAssessmentScene(customer, this.hotelService.getHotelInfo(this.order.getHotelID()),
+                    order);
+        }
 	}
 
 	// 显示酒店的方法
-	public void handleViewHotel() {
-		this.mainScene.showCustomerHotelInfoScene(customer, this.hotelService.getHotelInfo(this.order.getHotelID()));
+    @FXML
+    private void handleViewHotel() {
+        this.mainScene.showCustomerHotelInfoScene(customer, this.hotelService.getHotelInfo(this.order.getHotelID()));
 	}
 }

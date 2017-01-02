@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import VO.CustomerVO;
 import VO.HotelInfoVO;
 import blservice.Hotel_blservice;
-import blservice.UserInfo_blservice;
+import blservice.UserManagement_blservice;
 import blservice.impl.Hotel_bl;
+import blservice.impl.UserManagement_bl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import util.ImageUtil;
 
 public class CustomerMainController {
 
@@ -35,8 +37,6 @@ public class CustomerMainController {
 	@FXML
 	private Button exit;
 	@FXML
-	private Label districtName;
-	@FXML
 	private TableView<HotelInfoVO> hotelTable;
 	@FXML
 	private TableColumn<HotelInfoVO, String> hotelName;
@@ -47,9 +47,9 @@ public class CustomerMainController {
 
 	// ui层属性
 	private Hotel_blservice hotelService;
-	private UserInfo_blservice userService;
 	private CustomerVO customer;
 	private Main mainScene;
+    private UserManagement_blservice userservice;
 
 	// 表格属性
 	private ArrayList<HotelInfoVO> hotelList;
@@ -59,16 +59,18 @@ public class CustomerMainController {
 	}
 
 	public void initialize(Main main, CustomerVO customer) {
-		// TODO Auto-generated method stub
 		this.mainScene = main;
 		this.customer = customer;
 		this.hotelService = new Hotel_bl();
-		this.hotelList = this.hotelService.getAllHotel();
+        userservice = new UserManagement_bl();
+        this.hotelList = this.hotelService.getAllHotel();
 		// 表格操作
 		int count = 0;
 		while (count < this.hotelList.size()) {
-			this.hotelData.add(this.hotelList.get(count));
-			count++;
+            if (this.hotelService.HotelInfoCompletedComfirm(this.hotelList.get(count))) {
+                this.hotelData.add(this.hotelList.get(count));
+            }
+            count++;
 		}
 		this.hotelName.setCellValueFactory(cellData -> cellData.getValue().getHotelNameProperty());
 		this.address.setCellValueFactory(cellData -> cellData.getValue().getHotelAddressProperty());
@@ -80,37 +82,44 @@ public class CustomerMainController {
 	public void CustomerMainShow() {
 		this.leftIdLabel.setText(customer.getId());
 		this.leftNameLabel.setText(customer.getUsername());
-
-		// 表格操作
+        this.myPicture.setImage(ImageUtil.setImage(customer.getImage()));
+        // 表格操作
 		this.hotelTable.setItems(this.hotelData);
 	}
 
-	public void handleViewHotel() {
-		this.mainScene.showCustomerHotelViewScene(customer);
+    @FXML
+    private void handleViewHotel() {
+        this.mainScene.showCustomerHotelViewScene(customer);
 	}
 
-	public void handleViewOrder() {
-		this.mainScene.showCustomerOrderViewScene(customer);
+    @FXML
+    private void handleViewOrder() {
+        this.mainScene.showCustomerOrderViewScene(customer);
 	}
 
-	public void handlePersonal() {
-		this.mainScene.showCustomerInfoScene(customer);
+    @FXML
+    private void handlePersonal() {
+        this.mainScene.showCustomerInfoScene(userservice.getCustomer(customer.getId()));
+    }
+
+    @FXML
+    private void handleAdviceFeedback() {
+        this.mainScene.showCustomerAdviceViewScene(customer);
 	}
 
-	public void handleAdviceFeedback() {
-		this.mainScene.showCustomerAdviceViewScene(customer);
-	}
-
-	public void handleExit() {
-		try {
-			this.mainScene.showLoginScene();
+    @FXML
+    private void handleExit() {
+        try {
+            // this.customer.changeLoginState(false);
+            // this.userservice.modifyCustomer(customer);
+            this.mainScene.showLoginScene();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void handleTableClick() {
+    @FXML
+    private void handleTableClick() {
 
 	}
 }

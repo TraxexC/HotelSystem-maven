@@ -1,25 +1,24 @@
 package presentation.controller.userManagementController;
 
-import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 
 import VO.CustomerVO;
 import VO.SystemManagerVO;
 import blservice.UserManagement_blservice;
 import blservice.impl.UserManagement_bl;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import main.Main;
+import util.ImageUtil;
 
 public class CustomerManagementController {
 
@@ -28,7 +27,9 @@ public class CustomerManagementController {
 	@FXML
 	private Label leftNameLabel;
 	@FXML
-	private Button viewUserInfo;
+    private ImageView myPicture;
+    @FXML
+    private Button viewUserInfo;
 	@FXML
 	private Button viewCustomerList;
 	@FXML
@@ -70,8 +71,12 @@ public class CustomerManagementController {
 		// left
 		leftIdLabel.setText(this.systemManagerVO.getId());
 		leftNameLabel.setText(this.systemManagerVO.getUserName());
+        myPicture.setImage(ImageUtil.setImage(this.systemManagerVO.getImage()));
 
-		idLabel.setText("客户列表");
+        /**
+         * 初始化为客户的列表
+         */
+        idLabel.setText("客户列表");
 		ArrayList<CustomerVO> customerList = userManagement_blservice.getAllCustomer();
 		for (CustomerVO customerVO : customerList) {
 			customerData.add(customerVO);
@@ -114,7 +119,34 @@ public class CustomerManagementController {
 		}
 	}
 
-	@FXML
+    @FXML
+    private void handleSearch() {
+        if (!inputSearchText.getText().equals("")) {
+            CustomerVO customerVO = userManagement_blservice.getCustomer(inputSearchText.getText());
+            if (customerVO == null) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("抱歉");
+                alert.setContentText("未查询到对应的客户");
+                alert.showAndWait();
+            } else {
+                customerData.clear();
+                customerData.add(customerVO);
+                idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDstringProperty());
+                nameColumn.setCellValueFactory(cellData -> cellData.getValue().getUserNamePriperty());
+                identityColumn.setCellValueFactory(cellData -> cellData.getValue().getUserTypePriperty());
+                stateColumn.setCellValueFactory(cellData -> cellData.getValue().getCreditProperty());
+
+                userTable.setItems(customerData);
+            }
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("提醒");
+            alert.setContentText("请先输入客户id后再进行搜索");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
 	private void handleBack() {
 		mainScene.showSystemManagerMainScene(systemManagerVO);
 	}

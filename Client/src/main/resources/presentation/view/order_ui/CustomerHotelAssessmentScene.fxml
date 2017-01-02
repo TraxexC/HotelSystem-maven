@@ -13,7 +13,8 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="143.0">
                <children>
-                  <ImageView fx:id="myPicture" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView fx:id="myPicture" fitHeight="160.0" fitWidth="160.0" layoutX="28.0" layoutY="14.0"
+                              pickOnBounds="true" preserveRatio="true"/>
                   <Label layoutX="33.0" layoutY="180.0" text="ID" />
                   <Label fx:id="leftIdLabel" layoutX="95.0" layoutY="180.0" text="Label" />
                   <Label layoutX="33.0" layoutY="210.0" text="姓名" />
@@ -31,7 +32,8 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="563.0" prefHeight="28.0" prefWidth="506.0" text="状态栏" />
+                   <Label fx:id="StateLabel" layoutX="10.0" layoutY="563.0" prefHeight="28.0" prefWidth="506.0"
+                          text="状态栏"/>
                   <Label layoutX="26.0" layoutY="240.0" text="添加文字评价">
                      <font>
                         <Font size="14.0" />
@@ -52,18 +54,19 @@
                         <MenuItem fx:id="fiveStar" mnemonicParsing="false" onAction="#handleFiveStar" text="5星" />
                     </items>
                   </MenuButton>
-                  <Label layoutX="26.0" layoutY="160.0" text="添加标签评价">
+                   <Label layoutX="26.0" layoutY="160.0" text="添加标签评价" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <MenuButton fx:id="tagReviews" layoutX="137.0" layoutY="158.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="144.0" text="选择标签">
+                   <MenuButton fx:id="tagReviews" layoutX="137.0" layoutY="158.0" mnemonicParsing="false"
+                               prefHeight="23.0" prefWidth="144.0" text="选择标签" visible="false">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
                   </MenuButton>
-                  <Label layoutX="26.0" layoutY="200.0" text="已添加的标签">
+                   <Label layoutX="26.0" layoutY="200.0" text="已添加的标签" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -79,16 +82,6 @@
                      </font>
                   </Label>
                   <Label fx:id="Tag3" layoutX="398.0" layoutY="200.0" text="Label" visible="false">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="309.0" layoutY="160.0" text="*最多只能添加三个标签">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="309.0" layoutY="119.0" text="Label">
                      <font>
                         <Font size="14.0" />
                      </font>
